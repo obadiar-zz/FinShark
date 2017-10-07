@@ -11,8 +11,8 @@ var text_to_speech = new TextToSpeechV1({
 
 // Object storing all the different language options
 var voice = {
-  'en' : 'en-US_MichaelVoice',
-  'es' : 'es-US_SofiaVoice'
+  'en': 'en-US_MichaelVoice',
+  'es': 'es-US_SofiaVoice'
 }
 
 //.
@@ -25,8 +25,12 @@ var textToSpeech = (text, language, callback) => {
   };
 
   // Pipe the synthesized text to a file
-  text_to_speech.synthesize(params).pipe(fs.createWriteStream('textToSpeech.mp3'));
-  callback();
+  var writeStream = fs.createWriteStream('textToSpeech.mp3');
+  text_to_speech.synthesize(params).pipe(writeStream);
+  writeStream.on('close', () => {
+    console.log('Text is now in voice format.')
+    callback();
+  });
 }
 
 // Example
