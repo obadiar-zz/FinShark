@@ -19,7 +19,7 @@ var textToSpeech = (text, language) => {
   // Setup params for text to speech
   var params = {
     text: text,
-    voice: language, // Optional voice
+    voice: language,
     accept: 'audio/mp3'
   };
 
