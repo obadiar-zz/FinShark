@@ -1,9 +1,37 @@
-var LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
+var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+var fs = require('fs');
 
 // Setup for the text to speech
 // MAKE SURE TO INCLUDE your Bluemix credentials in source.env
-var language_translator = new LanguageTranslatorV2({
-  "url": "https://gateway.watsonplatform.net/language-translator/api",
-  "username": process.env.IBM_TRANSLATION_USR,
-  "password": process.env.IBM_TRANSLATION_PWD
+var text_to_speech = new TextToSpeechV1({
+  "url": "https://stream.watsonplatform.net/text-to-speech/api",
+  "username": "cac55a89-c37d-4000-893b-318d7f7f89c7",
+  "password": "UlkdXZuXWnen"
 });
+
+// Object storing all the different language options
+var voice = {
+  'en' : 'en-US_MichaelVoice',
+  'es' : 'es-US_SofiaVoice'
+}
+
+var textToSpeech = (text, language) => {
+  // Setup params for text to speech
+  var params = {
+    text: text,
+    voice: language, // Optional voice
+    accept: 'audio/mp3'
+  };
+
+  // Pipe the synthesized text to a file
+  text_to_speech.synthesize(params).pipe(fs.createWriteStream('textToSpeech.mp3'));
+}
+
+// Example
+// Inputs text to be spoken, and voice
+// Output is a mp3 file named textToSpeech in the root directory
+//textToSpeech("Hello from IBM Watson", voice.en)
+
+module.exports = {
+  textToSpeech
+}
