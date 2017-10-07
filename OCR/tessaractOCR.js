@@ -52,3 +52,5 @@ detectText = (img, callback) => {
     page ar a rime for Lasr display an lhe Web.""
 
 */
+
+module.exports = detectText;
