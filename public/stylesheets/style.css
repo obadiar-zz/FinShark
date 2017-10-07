@@ -1,8 +1,39 @@
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  border: 1px red solid;
+  height: 100vh;
+  color: dodgerblue;
 }
 
-a {
-  color: #00B7FF;
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  border: 1px blue solid;
+  height: 100%;
+}
+
+.upload {
+  height: 10em;
+  width: 10em;
+  border: 2px dodgerblue solid;
+  border-radius: 1em;
+  padding: 1em 0;
+  text-align: center;
+}
+
+.select-language {
+  align-self: flex-end;
+  height: 2.5em;
+  width: 8em;
+}
+
+.upload span {
+  font-size: 7em;
+}
+
+.upload p {
+  font-size: 1.2em;
 }
