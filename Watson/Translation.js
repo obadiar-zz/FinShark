@@ -16,7 +16,7 @@ var language_translator = new LanguageTranslatorV2({
   4) callback: callback is called on the translation text
 */
 
-translateText = (text, sourceLang, targetLang, callback) => {
+var languageTranslator = (text, sourceLang, targetLang, callback) => {
   language_translator.translate({ text: text, source : sourceLang, target: targetLang},
     (err, translation) => {
       if (err){
@@ -32,3 +32,5 @@ translateText = (text, sourceLang, targetLang, callback) => {
 // An example call that will print out the result of translating
 // 'Hello, my name is Rob.' from English to Spanish.
 // translateText("Hello, my name is Rob.", 'en', 'es', console.log) --> "Hola, mi nombre es Rob."
+
+module.exports = languageTranslator
