@@ -1,8 +1,43 @@
+/* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL */
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  border: 1px red solid;
+  height: 100vh;
+  color: dodgerblue;
 }
 
-a {
-  color: #00B7FF;
+/* HOME *//* HOME *//* HOME *//* HOME *//* HOME *//* HOME *//* HOME */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  border: 1px blue solid;
+  height: 100%;
 }
+
+.home-upload {
+  height: 10em;
+  width: 10em;
+  border: 2px dodgerblue solid;
+  border-radius: 1em;
+  padding: 1em 0;
+  text-align: center;
+}
+
+.select-language {
+  align-self: flex-end;
+  height: 2.5em;
+  width: 8em;
+}
+
+.home-upload span {
+  font-size: 7em;
+}
+
+.home-upload p {
+  font-size: 1.2em;
+}
+
+/* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD */
