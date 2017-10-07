@@ -33,6 +33,4 @@ var textToSpeech = (text, language, callback) => {
 // Output is a mp3 file named textToSpeech in the root directory
 //textToSpeech("Hello from IBM Watson", voice.en, console.log)
 
-module.exports = {
-  textToSpeech
-}
+module.exports = textToSpeech;
