@@ -24,6 +24,7 @@ var languageTranslator = (text, sourceLang, targetLang, callback) => {
       }else{
         // Get back only the text from the translation
         var translatedText = (JSON.stringify(translation.translations[0].translation, null, 2));
+        console.log('File translated successfully!')
         callback(translatedText);
       }
     });
