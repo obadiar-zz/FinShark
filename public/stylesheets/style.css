@@ -1,3 +1,4 @@
+/* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL */
 body {
   /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -6,6 +7,7 @@ body {
   color: dodgerblue;
 }
 
+/* HOME *//* HOME *//* HOME *//* HOME *//* HOME *//* HOME *//* HOME */
 .home-container {
   display: flex;
   justify-content: space-between;
@@ -15,7 +17,7 @@ body {
   height: 100%;
 }
 
-.upload {
+.home-upload {
   height: 10em;
   width: 10em;
   border: 2px dodgerblue solid;
@@ -30,10 +32,12 @@ body {
   width: 8em;
 }
 
-.upload span {
+.home-upload span {
   font-size: 7em;
 }
 
-.upload p {
+.home-upload p {
   font-size: 1.2em;
 }
+
+/* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD */
