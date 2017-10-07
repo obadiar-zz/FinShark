@@ -15,7 +15,7 @@ var voice = {
   'es' : 'es-US_SofiaVoice'
 }
 
-var textToSpeech = (text, language) => {
+var textToSpeech = (text, language, callback) => {
   // Setup params for text to speech
   var params = {
     text: text,
@@ -25,12 +25,13 @@ var textToSpeech = (text, language) => {
 
   // Pipe the synthesized text to a file
   text_to_speech.synthesize(params).pipe(fs.createWriteStream('textToSpeech.mp3'));
+  callback();
 }
 
 // Example
-// Inputs text to be spoken, and voice
+// Inputs text to be spoken, voice, and a callback
 // Output is a mp3 file named textToSpeech in the root directory
-//textToSpeech("Hello from IBM Watson", voice.en)
+//textToSpeech("Hello from IBM Watson", voice.en, console.log)
 
 module.exports = {
   textToSpeech
