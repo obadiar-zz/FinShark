@@ -220,3 +220,8 @@ body {
   margin-right: 4em;
 }
 
+.month-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
