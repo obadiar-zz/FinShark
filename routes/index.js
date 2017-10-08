@@ -6,6 +6,7 @@ var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   const lang = req.query.lang || 'en';
+
   let text = {
     welcome: "Welcome, Watson",
     upload: "Upload",
@@ -13,11 +14,18 @@ router.get('/', function(req, res, next) {
 
   lang === 'en' 
     ? res.render('home', { title: 'FinShark', text: text })
-    : objTranslator(text, lang, res, 'json');
+    : objTranslator(text, lang, res, 'render', 'home');
+
 });
 
 router.post('/', (req, res) => {
-  res.redirect(`/?lang=${req.body.lang}`);
+
+  let text = {
+    welcome: "Welcome, Watson",
+    upload: "Upload",
+  };
+
+  objTranslator(text, req.body.lang, res, 'json');
 });
 
 router.get('/upload', function(req, res, next) {

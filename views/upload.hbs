@@ -13,3 +13,12 @@
     <a href='/'><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
   </div>
 </div>
+
+<script>
+
+  var lang = (this.location.href.split('lang='))[1] || 'en'
+  if (lang !== 'en') {
+    $('.third a').attr('href', `/?lang=${lang}`)
+  }
+
+</script>
