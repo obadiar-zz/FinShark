@@ -17,7 +17,9 @@
 
 <script>
 
+var self = this;
 $("#upload-form").submit(function(event){
+  event.preventDefault()
   var file = document.getElementById('file').files[0];
   console.log("file", file)
   var formData = new FormData();
@@ -25,6 +27,8 @@ $("#upload-form").submit(function(event){
   for(var key in formData.entries()){
     console.log(key);
   }
+  var lang = self.location.href.split('lang=')[1] || 'en'
+  console.log(lang)
   $.ajax({
     url: '/upload',
     type: 'POST',
@@ -33,7 +37,7 @@ $("#upload-form").submit(function(event){
     processData: false,
     success: function(resp){
       console.log(resp);
-      window.location.href=`/form?interestRate=${resp.interest}&loan=${resp.loan}`
+      window.location.href=`/form?interestRate=${resp.interest}&loan=${resp.loan}&lang=${lang}`
     }
   })
 })
