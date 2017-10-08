@@ -10,6 +10,7 @@ var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
 var PDFtoText = require('../Utilities/Watson/PDFtoText')
 var extractor = require('../Utilities/ExtractDataFromText.js')
+var axios = require('axios');
 
 
 /* GET home page. */
@@ -73,6 +74,22 @@ router.get('/graphdata', function (req, res, next) {
 })
 
 router.get('/form', function(req, res) {
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  res.render('form', {
+    loan: loan,
+    interest: interest
+  })
+});
+
+router.post('/form', function(req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
   res.render('form')
 });
 
@@ -98,7 +115,8 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
   }else{
       PDFtoText(req.file.originalname, (text) => {
         extractor(text, ["loan", "rate"], (text) =>{
-          console.log(text)
+
+          res.json({loan: text.loanAmount, interest: text.interestRate})
         });
       });
   }
