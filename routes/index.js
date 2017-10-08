@@ -99,6 +99,7 @@ router.get('/doc', function(req, res, next) {
   }
   
   res.render('doc', {data: data});
+})
   
 router.get('/form', function(req, res) {
   console.log(req.query)
@@ -122,7 +123,6 @@ router.post('/form', function(req, res) {
 
 
 
-
 router.post('/upload', upload.single('file'), function (req, res, next) {
   if(req.file.originalname.indexOf('pdf') === -1){
     res.sendStatus(400);
@@ -134,9 +134,6 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
         });
       });
   }
-
-
-
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
   // Use the mv() method to place the file somewhere on your server
