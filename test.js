@@ -5,6 +5,7 @@ var TexttoSpeech = require('./Utilities/Watson/TextToSpeech')
 var ImagetoText = require('./Utilities/OCR/tesseractOCR')
 var extractor = require('./Utilities/ExtractDataFromText.js')
 var getMortgages = require('./Utilities/USBankAPI')
+var getFraudData = require('./Utilities/FraudDataExtraction.js')
 
 const fileName = 'loan3.pdf'
 
