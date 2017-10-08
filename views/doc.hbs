@@ -1,0 +1,23 @@
+<div class='doc-container'>
+  <div>
+    <h1>Your Results, Simplified</h1>
+  </div>
+
+  <div class='results-container col-xs-10'>
+
+    {{#each data}}
+      <div class='msg-container'>
+
+        <div class='msg-left'>
+          <h2 style='color: {{this.color}}'>{{this.msgType}}</h2>
+        </div>
+        <div class='msg-right'>
+          {{this.msg}}
+        </div>
+      
+      </div> {{! msg-container }}
+    {{/each}}
+
+    <button class='btn btn-default' type='button'>Save Results</button>
+  </div>
+</div>
