@@ -10,7 +10,7 @@ var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   const lang = req.query.lang || 'en';
 
   let text = {
@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
   };
 
 
-  lang === 'en' 
+  lang === 'en'
     ? res.render('home', { text: text })
     : objTranslator(text, lang, res, 'render', 'home');
 
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
   objTranslator(text, req.body.lang, res, 'json');
 });
 
-router.get('/upload', function(req, res, next) {
+router.get('/upload', function (req, res, next) {
   const lang = req.query.lang || 'en';
   let text = {
     h1: "Upload Document",
@@ -44,7 +44,7 @@ router.get('/upload', function(req, res, next) {
   };
 
   lang === 'en'
-    ? res.render('upload', {text: text})
+    ? res.render('upload', { text: text })
     : objTranslator(text, lang, res, 'render', 'upload');
 
 });
@@ -59,32 +59,35 @@ router.get('/doc', function (req, res, next) {
   res.render('doc', { data: exampleData });
 });
 
-router.get('/graph/:n', function (req, res, next) {
+router.get('/graph/', function (req, res, next) {
+  var score = req.query.score
+  var numData = req.query.amount
   res.render('graph', {
-    n: req.params.n
+    score: score,
+    amount: req.query.amount
   })
 })
 
 router.get('/graphdata', function (req, res, next) {
   res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
 })
-  
-router.get('/form', function(req, res) {
+
+router.get('/form', function (req, res) {
   res.render('form')
 });
 
-router.get('/doc', function(req, res, next) {
+router.get('/doc', function (req, res, next) {
 
   const str1 = "Lorem ipsum dolor sit amet consectetur adipiscing, elit iaculis quisque ligula dapibus taciti, luctus aliquet maecenas nibh sociis. Iaculis sagittis commodo feugiat porttitor magna praesent eros, ullamcorper ac aenean aptent eget viverra convallis"
   const str2 = "Massa tellus bibendum vulputate eros quam aliquet fermentum dapibus leo auctor"
   const str3 = "Fames etiam primis curabitur tempor convallis habitasse litora enim, lacus tincidunt ante"
   const exampleData = [
-    {msgType: 'Good News', msg: str1, color: 'lightgreen'},
-    {msgType: 'Bad News', msg: str2, color: 'red'},
-    {msgType: 'Next Steps', msg: str3, color: ''}
+    { msgType: 'Good News', msg: str1, color: 'lightgreen' },
+    { msgType: 'Bad News', msg: str2, color: 'red' },
+    { msgType: 'Next Steps', msg: str3, color: '' }
   ]
 
-  res.render('doc', {data: exampleData});
+  res.render('doc', { data: exampleData });
 
 });
 
@@ -118,9 +121,9 @@ function objTranslator(text, lang, res, resType, view) {
     }
   }, (err) => {
     if (err) console.log(err);
-    if (resType === 'json') res.json({"text": text});
-    console.log('translated',text)
-    if (resType === 'render') res.render(view, {"text": text});
+    if (resType === 'json') res.json({ "text": text });
+    console.log('translated', text)
+    if (resType === 'render') res.render(view, { "text": text });
   })
 }
 
