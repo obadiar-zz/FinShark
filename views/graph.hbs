@@ -20,11 +20,12 @@
             url: "/graphdata"
         }).done(function (data) {
             jsonData = data;
-            gen({{n }})
+            gen()
         });
 
-        function gen(num) {
-            var data = jsonData.slice(0, num)
+        function gen() {
+            var data = jsonData
+            var score = '' + {{score}}
             var groupedBy = _.groupBy(data, x => x.creditScore)
             var creditScoreSum = 0;
             var labels = []
@@ -44,42 +45,36 @@
             }
             var average = creditScoreSum / counter
             var averageString = '' + parseInt(average)
-            groupedBy[averageString] = maxFrequency * 1.1;
-            var labelsToDisplay = ['600', '625', '650', '675', '700', '725', '750', '775', '800']
+            groupedBy[averageString] = parseInt(maxFrequency * 1.1);
+            groupedBy[score] = parseInt(maxFrequency * 1.1);
+            var labelComparison = [averageString, score]
+            var labelsToDisplay = ['Average', 'You']
             for (var key in groupedBy) {
-                labels.push(labelsToDisplay.indexOf(key) !== -1 ? labelsToDisplay[labelsToDisplay.indexOf(key)] : '')
+                var label = labelComparison.indexOf(key) !== -1 ? labelsToDisplay[labelComparison.indexOf(key)] : '';
+                labels.push(label)
                 frequencies.push(groupedBy[key])
-                backgroundColors.push(key === averageString ? 'black' : generateColor(key))
+                backgroundColors.push((key === averageString) ? 'black' : (key === score? 'blue' : generateColor(key)))
             }
-            //console.log(groupedBy)
             generateGraph(labels, frequencies, backgroundColors)
         }
 
         function generateGraph(labels, frequencies, backgroundColors) {
+            Chart.defaults.global.animation.duration = 3000;
             var ctx = $('#graph')
-            Chart.defaults.global.animation.duration = 0;
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Normal Distribution of Credit Scores',
+                        label: 'Frequency of Credit Scores',
                         data: frequencies,
                         backgroundColor: backgroundColors,
                         borderColor: [],
                         borderWidth: 1
                     }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: false
-                            }
-                        }]
-                    }
                 }
             });
+            console.log(myChart.options)
         }
         function generateColor(creditScore) {
             var creditScore = parseInt(creditScore)
