@@ -1,6 +1,5 @@
 <script src="https://use.fontawesome.com/4a0bea6b2c.js"></script>
 
-
 <div class='form-container'>
   <h1>Just One More Step</h1>
   <form class='form-form' method='post' action='/form'>
@@ -29,8 +28,13 @@
       <div class='property-type-container col-xs-4'>
         <select class='form-control' name='property-type'>
           <option>Property Type</option>
-          <option>Home</option>
-          <option>Apartment</option>
+          <option value='CO'>Condo</option>
+          <option value='LH'>Leasehold</option>
+          <option value='PU'>Planned Unit Development</option>
+          <option value='MH'>Manufactured Home</option>
+          <option value='SF'>Single Family Home</option>
+          <option value='CP'>Cooperative Share</option>
+          <option value='  '>Unknown</option>
         </select>
       </div>
 
@@ -45,16 +49,16 @@
 
 
       <div class="month-container input-group col-xs-4">
-        <div class="input-group col-xs-5">
-          <input type="number" class="form-control" placeholder='Months'>
+        <div class="input-group col-xs-4">
+          <input type="number" class="form-control" placeholder='# of Months'>
         </div>
+
 
         <div class="input-group col-xs-5">
           <input type="number" class="form-control" placeholder='Interest %' value={{interest}}>
         </div>
 
       </div>
-
     </div>
 
     <div class='row'>
