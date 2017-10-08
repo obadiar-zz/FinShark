@@ -64,19 +64,6 @@ body {
   }
 }
 
-#shark-container{
-  position:relative;
-  height: 400px;
-  width:400px;
-  text-align:center;
-  margin:0 auto;
-}
-.shark-line{
-  stroke:dodgerblue;
-    perspective:1000px;
-}
-
-
 /* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD */
 .upload-container {
   display: flex;
