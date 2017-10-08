@@ -13,5 +13,9 @@ router.get('/getData', function(req, res, next) {
 
 });
 
+router.get("/loading", function(req, res){
+
+});
+
 
 module.exports = router;

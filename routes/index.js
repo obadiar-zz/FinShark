@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var languageTranslator = require('../Utilities/Watson/Translation');
 var async = require('async');
+var fileUpload = require('express-fileupload');
+var multer = require('multer');
+var upload = multer();
+var ImagetoText = require('../Utilities/OCR/tesseractOCR')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,7 +16,7 @@ router.get('/', function(req, res, next) {
     upload: "Upload",
   };
 
-  lang === 'en' 
+  lang === 'en'
     ? res.render('home', { title: 'FinShark', text: text })
     : objTranslator(text, lang, res, 'render', 'home');
 
@@ -36,10 +40,10 @@ router.get('/upload', function(req, res, next) {
     submit: "Submit",
   };
 
-  lang === 'en' 
+  lang === 'en'
     ? res.render('upload', {text: text})
     : objTranslator(text, lang, res, 'render', 'upload');
-  
+
 });
 
 router.get('/doc', function(req, res, next) {
@@ -56,6 +60,22 @@ router.get('/doc', function(req, res, next) {
   res.render('doc', {data: exampleData});
 
 });
+
+
+router.post('/upload', upload.single('file'), function (req, res, next) {
+  var buffer = req.file["buffer"];
+  ImagetoText(buffer, (text) => res.send(text))
+  // if (!req.file)
+  //   return res.status(400).send('No files were uploaded.');
+  //   else{
+  //
+  //
+  //   }
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+  // Use the mv() method to place the file somewhere on your server
+
+})
 
 function objTranslator(text, lang, res, resType, view) {
   async.forEachOf(text, (val, key, cb) => {

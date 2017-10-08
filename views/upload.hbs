@@ -1,20 +1,41 @@
-<div class='upload-container'>
+<form class='upload-container' method="post" action="/upload" ref='uploadForm' id='upload-form' encType="multipart/form-data">
   <h1>{{text.h1}}</h1>
   <div class="padding-container col-xs-9">
     <div class="input-container">
-      <input type="file" name="file"/>
+      <input type="file" name="file" id="file"/>
     </div>
     <div class='submit-row'>
       <label for="file">{{text.label}}</label>
-      <a href='/doc'><button class="btn btn-default" type="submit">{{text.submit}}</button></a>
+      <a><button class="btn btn-default" type="submit">{{text.submit}}</button></a>
     </div>
   </div>
   <div class='third'>
     <a href='/'><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
   </div>
-</div>
+</form>
 
 <script>
+$("#upload-form").submit(function(event){
+  event.preventDefault();
+  var file = document.getElementById('file').files[0];
+  console.log("file", file)
+  var formData = new FormData();
+  formData.append('file', file);
+  for(var key in formData.entries()){
+    console.log(key);
+  }
+  $.ajax({
+    url: '/upload',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(resp){
+      console.log(resp);
+    }
+  })
+})
+
 
   var lang = (this.location.href.split('lang='))[1] || 'en'
   if (lang !== 'en') {
