@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var JSONData = require('../Utilities/resources/data')
+var path = require('path')
 var languageTranslator = require('../Utilities/Watson/Translation');
 var async = require('async');
 var fileUpload = require('express-fileupload');
@@ -16,8 +18,9 @@ router.get('/', function(req, res, next) {
     upload: "Upload",
   };
 
-  lang === 'en'
-    ? res.render('home', { title: 'FinShark', text: text })
+
+  lang === 'en' 
+    ? res.render('home', { text: text })
     : objTranslator(text, lang, res, 'render', 'home');
 
 });
@@ -44,6 +47,30 @@ router.get('/upload', function(req, res, next) {
     ? res.render('upload', {text: text})
     : objTranslator(text, lang, res, 'render', 'upload');
 
+});
+
+const exampleData = [
+  { msgType: 'Good News', msg: 'str1', color: 'lightgreen' },
+  { msgType: 'Bad News', msg: 'str2', color: 'red' },
+  { msgType: 'Next Steps', msg: 'str3', color: '' }
+]
+
+router.get('/doc', function (req, res, next) {
+  res.render('doc', { data: exampleData });
+});
+
+router.get('/graph/:n', function (req, res, next) {
+  res.render('graph', {
+    n: req.params.n
+  })
+})
+
+router.get('/graphdata', function (req, res, next) {
+  res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
+})
+  
+router.get('/form', function(req, res) {
+  res.render('form')
 });
 
 router.get('/doc', function(req, res, next) {

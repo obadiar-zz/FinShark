@@ -1,6 +1,7 @@
 <form class='upload-container' method="post" action="/upload" ref='uploadForm' id='upload-form' encType="multipart/form-data">
   <h1>{{text.h1}}</h1>
   <div class="padding-container col-xs-9">
+
     <div class="input-container">
       <input type="file" name="file" id="file"/>
     </div>
@@ -10,7 +11,7 @@
     </div>
   </div>
   <div class='third'>
-    <a href='/'><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
+    <a href='/'><i></i><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
   </div>
 </form>
 
@@ -39,7 +40,13 @@ $("#upload-form").submit(function(event){
 
   var lang = (this.location.href.split('lang='))[1] || 'en'
   if (lang !== 'en') {
-    $('.third a').attr('href', `/?lang=${lang}`)
+    $('.third a').attr('href', `/?lang=${lang}`);
   }
+    
+  $('.input-container input').change(function() {
+    $('.submit-row button').addClass('submit-animation')
+    $('.submit-row button').slideDown(1000);
+    $('.input-container').removeClass('upload-animation')
+  });
 
 </script>

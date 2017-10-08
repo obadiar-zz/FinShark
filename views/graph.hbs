@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <title>Graph</title>
+</head>
+
+<body>
+    <canvas id='graph'></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script>
+        var jsonData = []
+        $.ajax({
+            url: "/graphdata"
+        }).done(function (data) {
+            jsonData = data;
+            gen({{n }})
+        });
+
+        function gen(num) {
+            var data = jsonData.slice(0, num)
+            var groupedBy = _.groupBy(data, x => x.creditScore)
+            var creditScoreSum = 0;
+            var labels = []
+            var frequencies = []
+            var backgroundColors = []
+            var counter = 0;
+            for (var key in groupedBy) {
+                groupedBy[key] = groupedBy[key].length
+            }
+            var maxFrequency = 0;
+            for (var key in groupedBy) {
+                var frequency = parseInt(groupedBy[key]);
+                if (maxFrequency < frequency)
+                    maxFrequency = frequency
+                counter += frequency;
+                creditScoreSum += parseInt(key) * frequency ? parseInt(key) * frequency : 0
+            }
+            var average = creditScoreSum / counter
+            var averageString = '' + parseInt(average)
+            groupedBy[averageString] = maxFrequency * 1.1;
+            var labelsToDisplay = ['600', '625', '650', '675', '700', '725', '750', '775', '800']
+            for (var key in groupedBy) {
+                labels.push(labelsToDisplay.indexOf(key) !== -1 ? labelsToDisplay[labelsToDisplay.indexOf(key)] : '')
+                frequencies.push(groupedBy[key])
+                backgroundColors.push(key === averageString ? 'black' : generateColor(key))
+            }
+            //console.log(groupedBy)
+            generateGraph(labels, frequencies, backgroundColors)
+        }
+
+        function generateGraph(labels, frequencies, backgroundColors) {
+            var ctx = $('#graph')
+            Chart.defaults.global.animation.duration = 0;
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Normal Distribution of Credit Scores',
+                        data: frequencies,
+                        backgroundColor: backgroundColors,
+                        borderColor: [],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        function generateColor(creditScore) {
+            var creditScore = parseInt(creditScore)
+            if (creditScore < 650)
+                return 'red'
+            else if (creditScore < 675)
+                return '#f77f6a'
+            else if (creditScore < 700)
+                return 'orange'
+            else if (creditScore < 710)
+                return '#f4A018'
+            else if (creditScore < 750)
+                return 'yellow'
+            else if (creditScore < 775)
+                return 'lightgreen'
+            else if (creditScore < 800)
+                return '#7BF418'
+            else
+                return 'green'
+        }
+    </script>
+</body>
+
+</html>
