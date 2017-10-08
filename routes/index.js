@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var JSONData = require('../Utilities/resources/data')
+
 var path = require('path')
 var languageTranslator = require('../Utilities/Watson/Translation');
 var async = require('async');
