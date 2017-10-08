@@ -13,5 +13,9 @@
 
 /* }); */
 
+router.get("/loading", function(req, res){
+
+});
+
 
 /* module.exports = router; */
