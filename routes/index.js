@@ -89,7 +89,7 @@ router.get('/tospeech', function (req, res, next) {
 })
 
 
-router.post('/form', function(req, res) {
+router.post('/form', function (req, res) {
   var loan = req.body.loan;
   var creditScore = req.body.creditScore;
   var income = req.body.income;
@@ -97,8 +97,8 @@ router.post('/form', function(req, res) {
   var propertyType = req.body.propertyType;
   var months = req.body.months;
 
-  var LTV = (loan/propertyValue) * 100;
-  var DTI = (loan/months) / (income /12) * 100
+  var LTV = (loan / propertyValue) * 100;
+  var DTI = (loan / months) / (income / 12) * 100
   var sendData = {
     "creditScore": parseInt(creditScore),
     "firstTimeHomeBuyer": false,
@@ -108,7 +108,7 @@ router.post('/form', function(req, res) {
     "channel": "R",
     "PPM": "N",
     "loanPurpose": "P",
-    "numUnits":  1,
+    "numUnits": 1,
     "propertyType": propertyType,
     "unpaidAmount": loan.toString(),
     "LTV": LTV.toString(),
@@ -130,7 +130,7 @@ router.post('/form', function(req, res) {
       "channel": "R",
       "PPM": "N",
       "loanPurpose": "P",
-      "numUnits":  1,
+      "numUnits": 1,
       "propertyType": propertyType,
       "unpaidAmount": loan.toString(),
       "LTV": LTV.toString(),
@@ -139,104 +139,112 @@ router.post('/form', function(req, res) {
       "DTI": DTI.toString(),
       "numberBorrowers": 1
     }
-  }).then( (resp) => console.log(resp.data))
-  .catch((err) => console.log(err))
+  }).then((resp) => console.log(resp.data))
+    .catch((err) => console.log(err))
+})
+
+router.get('/doc', function (req, res, next) {
+
+  const data = {
+    score: 1,
+    color: 'black',
+    graph: null,
+    message: null,
+  }
+
+  let parseScore = parseInt(data.score)
+
+  if (parseScore >= 0 && parseScore < 4) {
+    data.color = 'green'
+    data.message = 'Your doc analysis results raised few warnings. Cheers!'
+  }
+  else if (parseScore > 4 && parseScore < 7) {
+    data.color = 'amber'
+    data.message = 'Your doc analysis results raised some warnings. Consider talking to an insurance professional about your loan.'
+  }
+  else if (parseScore > 7 && parseScore <= 10) {
+    data.color = 'red'
+    data.message = 'Your doc analysis results raised significant warnings. Recommended next steps are to call our trusted partners A.A.R.P. (1-866-654-5572) and U.S. Bank (1-800-720-2265).'
+  }
+  else {
+    console.log('error in GET /doc. score is not between 0 and 10')
+    data.message = 'Error retrieving your results. Please let us know if this error occurred.'
+  }
+
+  res.render('doc', { data: data });
+})
+
+router.get('/form', function (req, res) {
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  res.render('form', {
+    loan: loan,
+    interest: interest
   })
+});
 
-  router.get('/doc', function (req, res, next) {
-
-    const data = {
-      score: 1,
-      color: 'black',
-      graph: null,
-      message: null,
-    }
-
-    let parseScore = parseInt(data.score)
-
-    if (parseScore >= 0 && parseScore < 4) {
-      data.color = 'green'
-      data.message = 'Your doc analysis results raised few warnings. Cheers!'
-    }
-    else if (parseScore > 4 && parseScore < 7) {
-      data.color = 'amber'
-      data.message = 'Your doc analysis results raised some warnings. Consider talking to an insurance professional about your loan.'
-    }
-    else if (parseScore > 7 && parseScore <= 10) {
-      data.color = 'red'
-      data.message = 'Your doc analysis results raised significant warnings. Recommended next steps are to call our trusted partners A.A.R.P. (1-866-654-5572) and U.S. Bank (1-800-720-2265).'
-    }
-    else {
-      console.log('error in GET /doc. score is not between 0 and 10')
-      data.message = 'Error retrieving your results. Please let us know if this error occurred.'
-    }
-
-    res.render('doc', { data: data });
-  })
-
-  router.get('/form', function (req, res) {
-    console.log(req.query)
-    var loan = req.query.loan;
-    var interest = req.query.interestRate;
-    res.render('form', {
-      loan: loan,
-      interest: interest
-    })
-  });
-
-  router.post('/form', function (req, res) {
-    var loan = req.body.loan;
-    var creditScore = req.body.creditScore;
-    var income = req.body.income;
-    var propertyValue = req.body.propertyValue;
-    var propertyType = req.body.propertyType;
-    var months = req.body.months;
-    res.render('form')
-  });
+router.post('/form', function (req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
+  res.render('form')
+});
 
 
 
-  router.post('/upload', upload.single('file'), function (req, res, next) {
-    if (req.file.originalname.indexOf('pdf') === -1) {
-      res.sendStatus(400);
-    } else {
-      PDFtoText(req.file.originalname, (text) => {
-        extractor(text, ["loan", "rate"], (text) => {
+router.post('/upload', upload.single('file'), function (req, res, next) {
+  if (req.file.originalname.indexOf('pdf') === -1) {
+    res.sendStatus(400);
+  } else {
+    var language = 'es'
+    PDFtoText(req.file.originalname, (text) => {
 
-          res.json({ loan: text.loanAmount, interest: text.interestRate })
-        });
+      languageTranslator(text, 'en', language, (translatedText) => {
+        TexttoSpeech(translatedText, language, (soundPath) => {
+          extractor(text, ["loan", "rate"], (response) => {
+            res.json({ loan: response.loanAmount, interest: response.interestRate, translatedText: translatedText, soundPath: soundPath })
+          });
+        })
+
+
+
       });
-    }
+    })
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
     // Use the mv() method to place the file somewhere on your server
 
-  })
-
-
-  // parameters for objTranslator()
-  // text: an object of strings being passed to hbs view
-  // res: res.send/render/json function
-  // resType: 'json' or 'render' or 'send'
-  // view: name of hbs view
-  function objTranslator(text, lang, res, resType, view) {
-    async.forEachOf(text, (val, key, cb) => {
-      try {
-        languageTranslator(val, 'en', lang, (translation) => {
-          console.log('\nval', val, '\nkey', key, '\ntranslation', translation)
-          text[key] = translation;
-          cb();
-        });
-      }
-      catch (e) {
-        return cb(e);
-      }
-    }, (err) => {
-      if (err) console.log(err);
-      if (resType === 'json') res.json({ "text": text });
-      console.log('translated', text)
-      if (resType === 'render') res.render(view, { "text": text });
-    })
   }
+})
 
-  module.exports = router;
+
+// parameters for objTranslator()
+// text: an object of strings being passed to hbs view
+// res: res.send/render/json function
+// resType: 'json' or 'render' or 'send'
+// view: name of hbs view
+function objTranslator(text, lang, res, resType, view) {
+  async.forEachOf(text, (val, key, cb) => {
+    try {
+      languageTranslator(val, 'en', lang, (translation) => {
+        console.log('\nval', val, '\nkey', key, '\ntranslation', translation)
+        text[key] = translation;
+        cb();
+      });
+    }
+    catch (e) {
+      return cb(e);
+    }
+  }, (err) => {
+    if (err) console.log(err);
+    if (resType === 'json') res.json({ "text": text });
+    console.log('translated', text)
+    if (resType === 'render') res.render(view, { "text": text });
+  })
+}
+
+module.exports = router;
