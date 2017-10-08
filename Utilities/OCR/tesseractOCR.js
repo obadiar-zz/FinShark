@@ -1,4 +1,5 @@
 var Tesseract = require('tesseract.js');
+var path = require('path')
 
 /*
 Only input is an image as specified below.
@@ -9,14 +10,13 @@ Only input is an image as specified below.
     3) a ImageData instance (an object containing width, height and data properties)
 */
 
-ImagetoText = (img, keywords, dataAnalysis, callback) => {
-  var keywords = keywords || ['loan', 'rate'];
-  var dataAnalysis = dataAnalysis || console.log;
+ImagetoText = (img, callback) => {
+  var img = path.join(__dirname, '..', 'resources', img);
   Tesseract.recognize(img, { lang: "eng" })
     .catch(err => console.error(err))
     .then(result => {
       var text = result.text;
-      dataAnalysis(text, keywords, callback);
+      callback(text);
     });
 }
 

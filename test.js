@@ -7,6 +7,8 @@ var extractor = require('./Utilities/ExtractDataFromText.js')
 
 const fileName = 'loan2.pdf'
 
-PDFtoImage(fileName, (response) => {
-    ImagetoText(response)
+ImagetoText('sample1.png', (text) => {
+    extractor(text, ['loan', 'rate'], (response) => {
+        console.log(response)
+    })
 })
