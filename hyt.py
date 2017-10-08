@@ -8,7 +8,9 @@ from sklearn.metrics import r2_score
 from sklearn.linear_model import Ridge
 import pickle
 from sklearn.externals import joblib
-
+from sklearn.svm import LinearSVC
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestRegressor
 def p2f(x):
     return float(x.strip('%'))
 def toStringArr(featureName):
@@ -120,42 +122,58 @@ for item in dat2:
             del item[key]
     dataArr.append(np.array(data_point_arr))
 
+
+
 xtrain = np.array(dataArr[:-25000])
 xtest = np.array(dataArr[-25000:])
 
 ytrain = np.array(interestRate[:-25000])
 ytest = np.array(interestRate[-25000:])
 #fit
-print(ytrain)
+xtrain = preprocessing.scale(xtrain)
+xtest = preprocessing.scale(xtest)
 
 linreg = linear_model.LinearRegression()
 ridreg = linear_model.Ridge(alpha = .5)
-rid_reg = Ridge(alpha=1.0)
-
+rid_reg = Ridge(alpha=10)
+lasso_reg = linear_model.Lasso(alpha=0.01)
+random_forest_reg = RandomForestRegressor(max_depth=2, random_state=0)
+elasticnet_reg = linear_model.ElasticNet(alpha=0.05, random_state=0)
 # Train the model using the training sets
 #simple linear regression
 linreg.fit(xtrain, ytrain)
 #ridge regression
 rid_reg.fit(xtrain, ytrain)
-joblib.dump(linreg, 'model.pkl')
+#L1 based feature selection
+lasso_reg.fit(xtrain, ytrain)
+#Random forest feature selection
+random_forest_reg.fit(xtrain, ytrain)
+#elastic net feature selection
+elasticnet_reg.fit(xtrain, ytrain)
 
+joblib.dump(linreg, 'model.pkl')
+joblib.dump(rid_reg, 'model1.pkl')
+joblib.dump(lasso_reg, 'model2.pkl')
+joblib.dump(random_forest_reg, 'model3.pkl')
+joblib.dump(elasticnet_reg, 'model4.pkl')
 # Make predictions using the testing set
 ypred = linreg.predict(xtest)
 ypred2 = rid_reg.predict(xtest)
 #ridge regression
-
-
+ypred3 = lasso_reg.predict(xtest)
+ypred4 = random_forest_reg.predict(xtest)
+ypred5 = elasticnet_reg.predict(xtest)
 # The coefficients
-print('Coefficients: \n', linreg.coef_)
+print('Coefficients: \n', lasso_reg.coef_)
 # The mean squared error
 print("Mean squared error: %.2f"
-      % mean_squared_error(ytest, ypred))
+      % mean_squared_error(ytest, ypred3))
 # Explained variance score: 1 is perfect prediction
-print('Variance score: %.2f' % r2_score(ytest, ypred))
+print('Variance score: %.2f' % r2_score(ytest, ypred3))
 
 # Plot outputs
 #plt.scatter(xtest, ytest,  color='black')
-plt.plot(xtest, ypred, color='blue', linewidth=3)
+plt.plot(xtest, ypred4, color='blue', linewidth=3)
 
 plt.xticks(())
 plt.yticks(())
