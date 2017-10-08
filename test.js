@@ -4,10 +4,10 @@ var languageTranslator = require('./Utilities/Watson/Translation')
 var TexttoSpeech = require('./Utilities/Watson/TextToSpeech')
 var ImagetoText = require('./Utilities/OCR/tesseractOCR')
 var extractor = require('./Utilities/ExtractDataFromText.js')
-var getMortgages = require('./Utilities/USBankAPI')
+var getMortgageRate = require('./Utilities/USBankAPI').getMortgageRate
 
 const fileName = 'loan3.pdf'
 
-getMortgages('360', 'VA', (response) => {
+getMortgageRate('360', 'VA', (response) => {
     console.log(response)
 })

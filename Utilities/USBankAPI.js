@@ -2,7 +2,7 @@ var axios = require('axios')
 
 const MORTGAGE_RATES_URL = 'https://uat-publicrestservice.usbank.com/public/RatesRestService_V_6_0/GetMortgageRates?application=myapp&output=json'
 
-function getMortgageRates(loanTerm, loanType, callback) {
+function getMortgageRate(loanTerm, loanType, callback) {
     axios.get(MORTGAGE_RATES_URL)
         .then(function (response) {
             var mortgageRates = response.data.MortgageRatesList.MortgageRates
@@ -10,7 +10,7 @@ function getMortgageRates(loanTerm, loanType, callback) {
             for (var i in mortgageRates) {
                 var rateProductType = mortgageRates[i].RateProductType
                 if (rateProductType.indexOf(loanType) !== -1 && rateProductType.indexOf('' + convertedTerm + (loanType === 'ARM' ? 'YR' : '')) !== -1) {
-                    callback(mortgageRates[i]);
+                    callback(mortgageRates[i].RatesDetailList.Rate);
                     break;
                 }
             }
@@ -20,4 +20,6 @@ function getMortgageRates(loanTerm, loanType, callback) {
         });
 }
 
-module.exports = getMortgageRates
+module.exports = {
+    getMortgageRate: getMortgageRate
+}
