@@ -1,0 +1,51 @@
+
+
+<script>
+  var shark = document.getElementById('shark'),
+  $sharkLines = $('.shark-line'),
+  $sharkEyes = $('.shark-eye'),
+  timeline = new TimelineMax({repeat: -1, repeatDelay: 2});
+  timeline.set(shark,{scale:0.7});
+  timeline.fromTo($sharkLines,2,{scale:1.5,z:-400,rotation:0},{scale:1,x:0,y:0,z:0,rotation:360,transformOrigin:"center center"});
+  timeline.to($sharkEyes,0.3,{css:{fill:"red"}},"+=0.5")
+  timeline.add([
+    TweenMax.to($sharkEyes,1,{css:{fill:"blue"}},"+=0.5"),
+    TweenMax.to(shark,1,{scale:0.8}),
+    TweenMax.to('.footer-name',1,{scale:1})
+  ]);
+</script>
+
+#shark-container{
+  position:relative;
+  height: 400px;
+  width:400px;
+  text-align:center;
+  margin:0 auto;
+}
+.shark-line{
+  stroke:dodgerblue;
+    perspective:1000px;
+}
+
+
+  <div id="shark-container">
+   <svg id="shark" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="300px"
+     height="400px" viewBox="0 0 1758 1452" enable-background="new 0 0 1758 1452" xml:space="preserve">
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="881.971" y1="185.494" x2="824.06" y2="435.564"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="939.881" y1="435.564" x2="881.971" y2="185.494"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="1256.639" y1="606.665" x2="939.881" y2="435.564"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="1256.639" y1="841.825" x2="1256.639" y2="606.665"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="1652.371" y1="976.07" x2="1256.639" y2="841.825"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="1211.894" y1="964.662" x2="1652.371" y2="976.07"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="881.971" y1="1266.506" x2="1211.894" y2="964.662"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="552.047" y1="964.662" x2="881.971" y2="1266.506"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="111.57" y1="976.07" x2="552.047" y2="964.662"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="507.302" y1="841.825" x2="111.57" y2="976.07"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="507.302" y1="606.665" x2="507.302" y2="841.825"/>
+    <line class="shark-line" fill="none" stroke="#000000" stroke-width="16" stroke-miterlimit="10" x1="824.06" y1="435.564" x2="507.302" y2="606.665"/>
+    <polygon class="shark-eye" fill="" points="610.84,876.922 791.012,1083.997 679.875,1026.659 	"/>
+    <polygon class="shark-eye" fill="" points="1153.101,876.922 972.929,1083.997 1084.072,1026.659 	"/>
+  </svg>
+</div>
+
+

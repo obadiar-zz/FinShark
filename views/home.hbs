@@ -1,16 +1,35 @@
 <div class='home-container'>
-  <div class='welcome'>
-    <h1>Welcome, Watson</h1>
-  </div>
+
+  <h1 style='display: inline'>Welcome, Watson</h1>
+  
   <a href='/upload'>
     <div class='home-upload'>
       <span class='glyphicon glyphicon-upload'></span>
       <p>Upload</p>
     </div>
   </a>
+
+  <div class='language-container'>
     <select class="select-language form-control">
       <option>English 🇺🇸</option>
       <option>Español 🇪🇸</option>
       <option>中文 🇨🇳</option>
     </select>
+  </div>
+
 </div>
+
+<script>
+  var shark = document.getElementById('shark'),
+  $sharkLines = $('.shark-line'),
+  $sharkEyes = $('.shark-eye'),
+  timeline = new TimelineMax({repeat: -1, repeatDelay: 2});
+  timeline.set(shark,{scale:0.7});
+  timeline.fromTo($sharkLines,2,{scale:1.5,z:-400,rotation:0},{scale:1,x:0,y:0,z:0,rotation:360,transformOrigin:"center center"});
+  timeline.to($sharkEyes,0.3,{css:{fill:"red"}},"+=0.5")
+  timeline.add([
+    TweenMax.to($sharkEyes,1,{css:{fill:"blue"}},"+=0.5"),
+    TweenMax.to(shark,1,{scale:0.8}),
+    TweenMax.to('.footer-name',1,{scale:1})
+  ]);
+</script>
