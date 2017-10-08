@@ -8,14 +8,11 @@ var fileUpload = require('express-fileupload');
 var multer = require('multer');
 var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
-<<<<<<< HEAD
 var TexttoSpeech = require('../Utilities/Watson/TextToSpeech')
-=======
 var PDFtoText = require('../Utilities/Watson/PDFtoText')
 var extractor = require('../Utilities/ExtractDataFromText.js')
 var axios = require('axios');
 
->>>>>>> master
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
