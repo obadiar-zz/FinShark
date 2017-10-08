@@ -1,7 +1,7 @@
 /* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL *//* GLOBAL */
 body {
   /* padding: 50px; */
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Petit Formal Script", "Lucida Grande", Helvetica, Arial, sans-serif;
   /* border: 1px red solid; */
   height: 100vh;
   color: dodgerblue;
@@ -84,14 +84,53 @@ body {
 }
 
 .input-container {
-  background-color: powderblue;
-  border: 2px dashed gray;
+  background-color: skyblue;
+  border: 2px dashed black;
   padding: 1em;
   height: 100%;
   background-image: url("http://bit.ly/2yxfc1f");
   background-size: 27.5%;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.upload-animation {
+  animation-name: infinite-pow;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  text-decoration: none;
+}
+@keyframes infinite-pow {
+  0% {
+    background-color: skyblue;
+  }
+  50% {
+    background-color: powderblue;
+  }
+  100% {
+    background-color: skyblue;
+  }
+}
+
+.btn.btn-default {
+  border: 1px solid black
+}
+.submit-animation {
+  animation-name: click-me;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  box-shadow: 5px 5px 5px black;
+}
+@keyframes click-me {
+  0% {
+    background-color: #00d374;
+  }
+  50% {
+    background-color: skyblue;
+  }
+	100% {
+    background-color: #00d374;
+  }
 }
 
 .submit-row {

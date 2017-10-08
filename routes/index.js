@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   };
 
   lang === 'en' 
-    ? res.render('home', { title: 'FinShark', text: text })
+    ? res.render('home', { text: text })
     : objTranslator(text, lang, res, 'render', 'home');
 
 });
@@ -45,9 +45,9 @@ router.get('/upload', function(req, res, next) {
 });
 
 const exampleData = [
-  { msgType: 'Good News', msg: str1, color: 'lightgreen' },
-  { msgType: 'Bad News', msg: str2, color: 'red' },
-  { msgType: 'Next Steps', msg: str3, color: '' }
+  { msgType: 'Good News', msg: 'str1', color: 'lightgreen' },
+  { msgType: 'Bad News', msg: 'str2', color: 'red' },
+  { msgType: 'Next Steps', msg: 'str3', color: '' }
 ]
 
 router.get('/doc', function (req, res, next) {
