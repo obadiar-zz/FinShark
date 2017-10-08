@@ -90,6 +90,57 @@ router.post('/form', function(req, res) {
   var propertyValue = req.body.propertyValue;
   var propertyType = req.body.propertyType;
   var months = req.body.months;
+
+  var LTV = (loan/propertyValue) * 100;
+  var DTI = (loan/months) / (income /12) * 100
+  var sendData = {
+    "creditScore": parseInt(creditScore),
+    "firstTimeHomeBuyer": false,
+    "occupancyStatus": "O",
+    "sellerName": "Other sellers",
+    "servicerName": "Other servicers",
+    "channel": "R",
+    "PPM": "N",
+    "loanPurpose": "P",
+    "numUnits":  1,
+    "propertyType": propertyType,
+    "unpaidAmount": loan.toString(),
+    "LTV": LTV.toString(),
+    "CLTV": LTV.toString(),
+    "loanTerm": months.toString(),
+    "DTI": DTI.toString(),
+    "numberBorrowers": 1
+  }
+
+  console.log(sendData);
+
+
+  axios({
+    url: process.env.FLASK_URL,
+    method: "post",
+    data: {
+      "creditScore": creditScore,
+      "firstTimeHomeBuyer": false,
+      "occupancyStatus": "O",
+      "sellerName": "Other sellers",
+      "servicerName": "Other servicers",
+      "channel": "R",
+      "PPM": "N",
+      "loanPurpose": "P",
+      "numUnits":  1,
+      "propertyType": propertyType,
+      "unpaidAmount": loan.toString(),
+      "LTV": LTV.toString(),
+      "CLTV": LTV.toString(),
+      "loanTerm": months.toString(),
+      "DTI": DTI.toString(),
+      "numberBorrowers": 1
+    }
+  }).then( (resp) => console.log(resp.data))
+  .catch((err) => console.log(err))
+
+
+
   res.render('form')
 });
 
