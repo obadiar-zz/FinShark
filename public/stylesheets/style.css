@@ -16,28 +16,52 @@ body {
   border: 1px blue solid;
   height: 100%;
 }
-
-.home-upload {
-  height: 10em;
+.language-container {
+  align-self: flex-end;
+  padding: 1em;
+}
+.select-language {
+  height: 3em;
   width: 10em;
-  border: 2px dodgerblue solid;
-  border-radius: 1em;
-  padding: 1em 0;
-  text-align: center;
 }
 
-.select-language {
-  align-self: flex-end;
-  height: 2.5em;
-  width: 8em;
+.home-upload {
+  display: flex;
+  padding-top: 1em;
+  justify-content: center;
+  flex-direction: column;
+  height: 15em;
+  width: 15em;
+  text-align: center;
+  border: dodgerblue 2px solid;
+  border-radius: 1em;
 }
 
 .home-upload span {
-  font-size: 7em;
+  font-size: 11em;
 }
 
 .home-upload p {
-  font-size: 1.2em;
+  font-size: 1.5em;
+}
+
+/* HOME ANIMATIONS/TRANSITIONS */
+.home-container a {
+  animation-name: infinite-anchor;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  text-decoration: none;
+}
+@keyframes infinite-anchor {
+  0% {
+    color: dodgerblue;
+  }
+  50% {
+    color: skyblue;
+  }
+  100% {
+    color: dodgerblue;
+  }
 }
 
 /* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD *//* UPLOAD */
@@ -51,7 +75,7 @@ body {
 
 .padding-container {
   color: black;
-  background-color: lightgray;
+  background-color: skyblue;
   padding: 3.5rem;
   padding-bottom: 4rem;
   height: 60%;
@@ -60,12 +84,12 @@ body {
 }
 
 .input-container {
-  background-color: darkgray;
+  background-color: powderblue;
   border: 2px dashed gray;
   padding: 1em;
   height: 100%;
   background-image: url("http://bit.ly/2yxfc1f");
-  background-size: 30%;
+  background-size: 27.5%;
   background-repeat: no-repeat;
   background-position: center center;
 }

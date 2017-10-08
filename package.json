@@ -6,17 +6,23 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "axios": "^0.16.2",
     "body-parser": "~1.18.2",
     "chart.js": "^2.7.0",
     "cookie-parser": "~1.4.3",
+    "csv-parse": "^1.2.4",
+    "csv-parser": "^1.11.0",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "fast-csv": "^2.4.1",
+    "google-places": "0.0.2",
     "hbs": "~4.0.1",
     "isstream": "^0.1.2",
     "json-schema": "^0.2.3",
     "morgan": "~1.9.0",
     "pdf-image": "^1.1.0",
+    "require": "^2.4.20",
     "serve-favicon": "~2.4.5",
     "tesseract.js": "^1.0.10",
     "watson-developer-cloud": "^2.40.0"

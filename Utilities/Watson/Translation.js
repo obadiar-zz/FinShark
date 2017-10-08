@@ -20,10 +20,10 @@ var languageTranslator = (text, sourceLang, targetLang, callback) => {
   language_translator.translate({ text: text, source : sourceLang, target: targetLang},
     (err, translation) => {
       if (err){
-        console.log('error:', err);
+        console.log('this error is brought to you by Rob:', err);
       }else{
         // Get back only the text from the translation
-        var translatedText = (JSON.stringify(translation.translations[0].translation, null, 2));
+        var translatedText = JSON.parse(JSON.stringify(translation.translations[0].translation, null, 2));
         console.log('File translated successfully!')
         callback(translatedText);
       }

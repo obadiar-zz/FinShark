@@ -1,12 +1,12 @@
 <div class='upload-container'>
-  <h1>Upload Document</h1>
+  <h1>{{text.h1}}</h1>
   <div class="padding-container col-xs-9">
     <div class="input-container">
       <input type="file" name="file"/>
     </div>
     <div class='submit-row'>
-      <label for="file">Choose a file or drag it here.</label>
-      <a href='/doc'><button class="btn btn-default" type="submit">Submit</button></a>
+      <label for="file">{{text.label}}</label>
+      <a href='/doc'><button class="btn btn-default" type="submit">{{text.submit}}</button></a>
     </div>
   </div>
   <div class='third'>
@@ -15,5 +15,10 @@
 </div>
 
 <script>
+
+  var lang = (this.location.href.split('lang='))[1] || 'en'
+  if (lang !== 'en') {
+    $('.third a').attr('href', `/?lang=${lang}`)
+  }
 
 </script>

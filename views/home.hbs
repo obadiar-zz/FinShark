@@ -1,16 +1,68 @@
 <div class='home-container'>
-  <div class='welcome'>
-    <h1>Welcome, Watson</h1>
-  </div>
+
+  <h1>{{text.welcome}}</h1>
+  
   <a href='/upload'>
     <div class='home-upload'>
       <span class='glyphicon glyphicon-upload'></span>
-      <p>Upload</p>
+      <p>{{text.upload}}</p>
     </div>
   </a>
+
+  <div class='language-container'>
     <select class="select-language form-control">
-      <option>English 🇺🇸</option>
-      <option>Español 🇪🇸</option>
-      <option>中文 🇨🇳</option>
+      <option value='en'>English 🇺🇸</option>
+      <option value='es'>Español 🇪🇸</option>
+      <option value='fr'>French 🇫🇷</option>
+      <option value='it'>Italian 🇮🇹</option>
+      <option value='ar'>Arabic 🇸🇦</option>
+      <option value='pt'>Portuguese 🇵🇹</option>
+      <option value='ko'>Korean 🇰🇷</option>
+      <option value='de'>German 🇩🇪</option>
+      <option value='ja'>Japanese 🇯🇵</option>
+
     </select>
+  </div>
+
 </div>
+
+<script>
+  console.log('lang')
+
+  var lang = (this.location.href.split('lang='))[1] || 'en'
+  if (lang !== 'en') {
+    $('a').attr('href', `/upload/?lang=${lang}`)
+    $('select').val(lang)
+  }
+
+
+  $('.select-language').change(function() {
+    var lang = $(this).val();
+    console.log(lang)
+    localStorage.setItem('lang', lang);
+    if (lang !== 'en') {
+      $.ajax({
+        url: '/',
+        method: 'POST',
+        data: {lang: lang},
+        success: function(resp) {
+          console.log(resp)
+          $('h1').text(resp.text.welcome);
+          $('p').text(resp.text.upload);
+          $('a').attr('href', `/upload?lang=${lang}`)
+        },
+        error: function(err) {
+          console.log(err)
+        }
+      })
+    }
+    else if (lang === 'en') {
+      $('h1').text('{{text.welcome}}');
+      $('p').text('{{text.upload}}');
+      $('a').attr('href', `/upload`)
+    }
+
+
+  })
+
+</script>
