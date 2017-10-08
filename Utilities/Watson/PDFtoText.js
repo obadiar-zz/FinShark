@@ -13,13 +13,11 @@ This function takes two parameters:
 2) A callback function to decide what to do with the resulting text
 */
 
-function PDFtoText(fileName, callback){
+function PDFtoText(fileName, callback) {
     var inputFolder = __dirname + '/resources/';
     var outputFolder = __dirname + '/converted/';
-    var inputExt = '.pdf'
-    var outputExt = '.txt'
-    var inputPath = inputFolder + fileName + inputExt;
-    var outputPath = outputFolder + fileName + outputExt;
+    var inputPath = inputFolder + fileName;
+    var outputPath = outputFolder + fileName.substring(0, fileName.indexOf('.')) + '.txt';
     document_conversion.convert({
         // (JSON) ANSWER_UNITS, NORMALIZED_HTML, or NORMALIZED_TEXT
         file: fs.createReadStream(inputPath),
@@ -39,7 +37,8 @@ function PDFtoText(fileName, callback){
             console.error('Error:', error);
         } else {
             console.log('PDF converted successfully.')
-            callback(response);
+            callback(response)
+            // callback(JSON.stringify(response, null, 4));
         }
     }));
 }

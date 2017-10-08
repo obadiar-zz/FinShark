@@ -9,7 +9,7 @@ Only input is an image as specified below.
     3) a ImageData instance (an object containing width, height and data properties)
 */
 
-detectText = (img, callback) => {
+ImagetoText = (img, callback) => {
   Tesseract.recognize(img, { lang: "eng" })
     .catch(err => console.error(err))
     .then(result => {
@@ -52,3 +52,5 @@ detectText = (img, callback) => {
     page ar a rime for Lasr display an lhe Web.""
 
 */
+
+module.exports = ImagetoText

@@ -1,12 +1,11 @@
-var PDFtoText = require('./Watson/PDFtoText')
-var languageTranslator = require('./Watson/Translation')
-var TexttoSpeech = require('./Watson/TextToSpeech')
+var PDFtoText = require('./Utilities/Watson/PDFtoText')
+var PDFtoImage = require('./Utilities/PDFtoImage')
+var languageTranslator = require('./Utilities/Watson/Translation')
+var TexttoSpeech = require('./Utilities/Watson/TextToSpeech')
+var ImagetoText = require('./Utilities/OCR/tesseractOCR')
 
-PDFtoText('pdf-sample', (response)=>{
-    languageTranslator(response, 'en', 'es', (response) => {
-        TexttoSpeech(response, 'es', () => {
-            console.log('Done!')
-        })
-    })
+const fileName = 'loan2.pdf'
+
+PDFtoImage(fileName, (response) => {
+    ImagetoText(response, console.log)
 })
-
