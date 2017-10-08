@@ -1,6 +1,6 @@
 var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
 var fs = require('fs');
-
+var path = require('path')
 // Setup for the text to speech
 // MAKE SURE TO INCLUDE your Bluemix credentials in source.env
 var text_to_speech = new TextToSpeechV1({
@@ -23,13 +23,14 @@ var textToSpeech = (text, language, callback) => {
     voice: voice[language],
     accept: 'audio/mp3'
   };
-
+  var fileName = 'temp.mp3';
+  var filePath = path.join(__dirname, 'converted', fileName)
   // Pipe the synthesized text to a file
-  var writeStream = fs.createWriteStream('textToSpeech.mp3');
+  var writeStream = fs.createWriteStream(filePath);
   text_to_speech.synthesize(params).pipe(writeStream);
   writeStream.on('close', () => {
     console.log('Text is now in voice format.')
-    callback();
+    callback(filePath);
   });
 }
 

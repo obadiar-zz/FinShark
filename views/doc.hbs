@@ -1,26 +1,45 @@
+<style>
+h2, p {
+  color: {{data.color}}
+}
+
+.left-top, .right-top {
+  border: 1px solid black;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+</style>
+
 <div class='doc-container'>
   <div>
     <h1>Your Results, Simplified</h1>
   </div>
 
-  <div class='results-container col-xs-10'>
+  <div class='row col-xs-12'>
 
-    {{#each data}}
-      <div class='msg-container'>
+    <div class='left-top'>
+      <h2>{{data.score}}</h2>
+    </div>
 
-        <div class='msg-left'>
-          <h2 style='color: {{this.color}}'>{{this.msgType}}</h2>
-        </div>
-        <div class='msg-right'>
-          {{this.msg}}
-        </div>
-      
-      </div> {{! msg-container }}
-    {{/each}}
+    <div class='right-top'>
+      <p>{{data.message}}</p>
+      <button class='btn btn-default'>Audio</button>
+    </div>
 
-    <button class='btn btn-default' type='button'>Save Results</button>
+  </div> {{! row }}
+
+  <div class='row'>
+    GRAPH 
   </div>
+
+
+    {{!<button class='btn btn-default' type='button'>Save Results</button>}}
+
   <div class='third'>
-    <a href='/upload'><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
+    <a href='/form'><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
   </div>
 </div>

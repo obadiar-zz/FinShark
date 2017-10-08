@@ -1,5 +1,4 @@
 var PDFtoText = require('./Utilities/Watson/PDFtoText')
-var PDFtoImage = require('./Utilities/PDFtoImage')
 var languageTranslator = require('./Utilities/Watson/Translation')
 var TexttoSpeech = require('./Utilities/Watson/TextToSpeech')
 var ImagetoText = require('./Utilities/OCR/tesseractOCR')
@@ -9,15 +8,8 @@ var getFraudData = require('./Utilities/FraudDataExtraction.js')
 
 const fileName = 'loan4.pdf'
 
-PDFtoText(fileName, (response) => {
-    // console.log(response)
-    extractor(response, ['loan', 'rate'], (response) => {
-        console.log(response)
-    })
-})
+const text = "Hello, how does this work?"
 
-// ImagetoText('sample2.png', (response) => {
-//     extractor(response, ['loan', 'rate'], (response) => {
-//         console.log(response)
-//     })
-// })
+TexttoSpeech(text, 'en', (response) => {
+    console.log(response)
+})
