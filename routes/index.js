@@ -117,10 +117,7 @@ router.post('/form', function(req, res) {
     "DTI": DTI.toString(),
     "numberBorrowers": 1
   }
-
   console.log(sendData);
-
-
   axios({
     url: process.env.FLASK_URL,
     method: "post",
@@ -144,6 +141,7 @@ router.post('/form', function(req, res) {
     }
   }).then( (resp) => console.log(resp.data))
   .catch((err) => console.log(err))
+  })
 
   router.get('/doc', function (req, res, next) {
 
