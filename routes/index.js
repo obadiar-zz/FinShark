@@ -8,6 +8,9 @@ var fileUpload = require('express-fileupload');
 var multer = require('multer');
 var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
+var PDFtoText = require('../Utilities/Watson/PDFtoText')
+var extractor = require('../Utilities/ExtractDataFromText.js')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,7 +22,7 @@ router.get('/', function(req, res, next) {
   };
 
 
-  lang === 'en' 
+  lang === 'en'
     ? res.render('home', { text: text })
     : objTranslator(text, lang, res, 'render', 'home');
 
@@ -68,7 +71,7 @@ router.get('/graph/:n', function (req, res, next) {
 router.get('/graphdata', function (req, res, next) {
   res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
 })
-  
+
 router.get('/form', function(req, res) {
   res.render('form')
 });
@@ -90,14 +93,18 @@ router.get('/doc', function(req, res, next) {
 
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
-  var buffer = req.file["buffer"];
-  ImagetoText(buffer, (text) => res.send(text))
-  // if (!req.file)
-  //   return res.status(400).send('No files were uploaded.');
-  //   else{
-  //
-  //
-  //   }
+  if(req.file.originalname.indexOf('pdf') === -1){
+    res.sendStatus(400);
+  }else{
+      PDFtoText(req.file.originalname, (text) => {
+        extractor(text, ["loan", "rate"], (text) =>{
+          console.log(text)
+        });
+      });
+  }
+
+
+
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
   // Use the mv() method to place the file somewhere on your server
