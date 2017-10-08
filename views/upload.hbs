@@ -33,6 +33,7 @@ $("#upload-form").submit(function(event){
     processData: false,
     success: function(resp){
       console.log(resp);
+      window.location.href=`/form?interestRate=${resp.interest}&loan=${resp.loan}`
     }
   })
 })
@@ -41,7 +42,7 @@ var lang = (this.location.href.split('lang='))[1] || 'en'
 if (lang !== 'en') {
   $('.third a').attr('href', `/?lang=${lang}`);
 }
-  
+
 $('.input-container input').change(function() {
   $('.submit-row button').addClass('submit-animation')
   $('.submit-row button').slideDown(1000);

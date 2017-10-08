@@ -10,10 +10,11 @@ var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
 var PDFtoText = require('../Utilities/Watson/PDFtoText')
 var extractor = require('../Utilities/ExtractDataFromText.js')
+var axios = require('axios');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   const lang = req.query.lang || 'en';
 
   let text = {
@@ -38,7 +39,7 @@ router.post('/', (req, res) => {
   objTranslator(text, req.body.lang, res, 'json');
 });
 
-router.get('/upload', function(req, res, next) {
+router.get('/upload', function (req, res, next) {
   const lang = req.query.lang || 'en';
   let text = {
     h1: "Upload Document",
@@ -47,7 +48,7 @@ router.get('/upload', function(req, res, next) {
   };
 
   lang === 'en'
-    ? res.render('upload', {text: text})
+    ? res.render('upload', { text: text })
     : objTranslator(text, lang, res, 'render', 'upload');
 
 });
@@ -56,9 +57,12 @@ router.get('/form', function(req, res) {
   res.render('form')
 });
 
-router.get('/graph/:n', function (req, res, next) {
+router.get('/graph/', function (req, res, next) {
+  var score = req.query.score
+  var numData = req.query.amount
   res.render('graph', {
-    n: req.params.n
+    score: score,
+    amount: req.query.amount
   })
 })
 
@@ -95,8 +99,28 @@ router.get('/doc', function(req, res, next) {
   }
   
   res.render('doc', {data: data});
-
+  
+router.get('/form', function(req, res) {
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  res.render('form', {
+    loan: loan,
+    interest: interest
+  })
 });
+
+router.post('/form', function(req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
+  res.render('form')
+});
+
+
 
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
@@ -105,7 +129,8 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
   }else{
       PDFtoText(req.file.originalname, (text) => {
         extractor(text, ["loan", "rate"], (text) =>{
-          console.log(text)
+
+          res.json({loan: text.loanAmount, interest: text.interestRate})
         });
       });
   }
@@ -138,9 +163,9 @@ function objTranslator(text, lang, res, resType, view) {
     }
   }, (err) => {
     if (err) console.log(err);
-    if (resType === 'json') res.json({"text": text});
-    console.log('translated',text)
-    if (resType === 'render') res.render(view, {"text": text});
+    if (resType === 'json') res.json({ "text": text });
+    console.log('translated', text)
+    if (resType === 'render') res.render(view, { "text": text });
   })
 }
 
