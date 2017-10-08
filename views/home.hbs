@@ -22,19 +22,31 @@
 <script>
   $('.select-language').change(function() {
     var lang = $(this).val();
+    console.log(lang)
     localStorage.setItem('lang', lang);
-    $.ajax({
-      url: '/',
-      method: 'POST',
-      data: {lang: lang},
-      success: function(resp) {
-        console.log(resp)
-        $('h1').text(resp.text.welcome);
-        $('p').text(resp.text.upload);
-      },
-      error: function(err) {
-        console.log(err)
-      }
-    })
+    if (lang !== 'en') {
+      $.ajax({
+        url: '/',
+        method: 'POST',
+        data: {lang: lang},
+        success: function(resp) {
+          console.log(resp)
+          $('h1').text(resp.text.welcome);
+          $('p').text(resp.text.upload);
+          $('a').attr('href', `/upload?lang=${lang}`)
+        },
+        error: function(err) {
+          console.log(err)
+        }
+      })
+    }
+    else if (lang === 'en') {
+      $('h1').text('{{text.welcome}}');
+      $('p').text('{{text.upload}}');
+      $('a').attr('href', `/upload`)
+    }
+
+
   })
+
 </script>
