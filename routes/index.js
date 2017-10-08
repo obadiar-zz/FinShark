@@ -8,6 +8,7 @@ var fileUpload = require('express-fileupload');
 var multer = require('multer');
 var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
+var TexttoSpeech = require('../Utilities/Watson/TextToSpeech')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -70,6 +71,23 @@ router.get('/graph/', function (req, res, next) {
 
 router.get('/graphdata', function (req, res, next) {
   res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
+})
+
+router.get('/translate/:text/:language', function (req, res, next) {
+  var text = req.params.text;
+  var language = req.params.language;
+  languageTranslator(text, 'en', language, (response) => {
+    TexttoSpeech(response, language, (response) => {
+      res.sendFile(response)
+    })
+  })
+})
+
+router.get('/tospeech', function (req, res, next) {
+  var text = req.params.text;
+  TexttoSpeech(text, 'en', (response) => {
+    res.sendFile(response)
+  })
 })
 
 router.get('/form', function (req, res) {

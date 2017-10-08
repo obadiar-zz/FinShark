@@ -8,15 +8,8 @@ var getFraudData = require('./Utilities/FraudDataExtraction.js')
 
 const fileName = 'loan4.pdf'
 
-PDFtoText(fileName, (response) => {
-    // console.log(response)
-    extractor(response, ['loan', 'rate'], (response) => {
-        console.log(response)
-    })
-})
+const text = "Hello, how does this work?"
 
-// ImagetoText('sample2.png', (response) => {
-//     extractor(response, ['loan', 'rate'], (response) => {
-//         console.log(response)
-//     })
-// })
+TexttoSpeech(text, 'en', (response) => {
+    console.log(response)
+})
