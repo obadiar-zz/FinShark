@@ -211,6 +211,8 @@ router.get('/doc', function (req, res, next) {
     color: 'black',
     graph: null,
     message: null,
+    sound: soundPath,
+    translation: translatedText
   }
 
   console.log(translatedText);
@@ -281,6 +283,10 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
 })
 
 
+router.get('/playAudio', function(req, res, next){
+  res.sendFile('/Users/obadiar/Desktop/hackyourtomorrow/hackyourfuture2.0/Utilities/Watson/converted/temp.mp3')
+})
+
 // parameters for objTranslator()
 // text: an object of strings being passed to hbs view
 // res: res.send/render/json function
@@ -305,5 +311,6 @@ function objTranslator(text, lang, res, resType, view) {
     if (resType === 'render') res.render(view, { "text": text });
   })
 }
+
 
 module.exports = router;

@@ -10,6 +10,11 @@ const fileName = 'loan4.pdf'
 
 const text = "Hello, how does this work?"
 
-TexttoSpeech(text, 'en', (response) => {
-    console.log(response)
+PDFtoText(fileName, (response) => {
+    languageTranslator(response, 'en', 'es', (response) => {
+        console.log(response)
+        TexttoSpeech(response, 'es', (response) => {
+            console.log(response)
+        })
+    })
 })
