@@ -82,9 +82,7 @@ body {
 }
 
 .third {
-  height: 2.5em;
-  width: 8em;
-  /* border: 2px solid black; */
+  margin-bottom: 2em;
 }
 
 /* DOC *//* DOC *//* DOC *//* DOC *//* DOC *//* DOC *//* DOC *//* DOC */
@@ -92,6 +90,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  border: 2px solid black;
 }
 
 .results-container {
