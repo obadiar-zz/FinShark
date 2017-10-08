@@ -4,49 +4,58 @@
 
     <div class="upload-animation input-container">
       <label for="file">{{text.label}}</label>
-      <input type="file" name="file" id="file"/>
+      <input type="file" name="file" id="file" />
     </div>
     <div class='submit-row'>
-      <a href='/form'><button class="collapse btn btn-default" type="submit">{{text.submit}}</button></a>
+      <a href='/form'>
+        <button class="collapse btn btn-default" type="submit">{{text.submit}}</button>
+      </a>
     </div>
   </div>
   <div class='third'>
-    <a href='/'><i></i><button class='btn btn-default glyphicon glyphicon-chevron-left'></button></a>
+    <a href='/'>
+      <i></i>
+      <button class='btn btn-default glyphicon glyphicon-chevron-left'></button>
+    </a>
   </div>
 </form>
 
 <script>
 
-$("#upload-form").submit(function(event){
-  var file = document.getElementById('file').files[0];
-  console.log("file", file)
-  var formData = new FormData();
-  formData.append('file', file);
-  for(var key in formData.entries()){
-    console.log(key);
-  }
-  $.ajax({
-    url: '/upload',
-    type: 'POST',
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(resp){
-      console.log(resp);
-      window.location.href=`/form?interestRate=${resp.interest}&loan=${resp.loan}`
+  var self = this;
+  $("#upload-form").submit(function (event) {
+    event.preventDefault()
+    var file = document.getElementById('file').files[0];
+    console.log("file", file)
+    var formData = new FormData();
+    formData.append('file', file);
+    for (var key in formData.entries()) {
+      console.log(key);
     }
+    var lang = self.location.href.split('lang=')[1] || 'en'
+    console.log(lang)
+    $.ajax({
+      url: '/upload',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (resp) {
+        console.log(resp);
+        window.location.href = `/form?interestRate=${resp.interest}&loan=${resp.loan}&lang=${lang}&sound=${resp.soundPath}&${resp.translatedText}`
+      }
+    })
   })
-})
 
-var lang = (this.location.href.split('lang='))[1] || 'en'
-if (lang !== 'en') {
-  $('.third a').attr('href', `/?lang=${lang}`);
-}
+  var lang = (this.location.href.split('lang='))[1] || 'en'
+  if (lang !== 'en') {
+    $('.third a').attr('href', `/?lang=${lang}`);
+  }
 
-$('.input-container input').change(function() {
-  $('.submit-row button').addClass('submit-animation')
-  $('.submit-row button').slideDown(1000);
-  $('.input-container').removeClass('upload-animation')
-});
+  $('.input-container input').change(function () {
+    $('.submit-row button').addClass('submit-animation')
+    $('.submit-row button').slideDown(1000);
+    $('.input-container').removeClass('upload-animation')
+  });
 
 </script>

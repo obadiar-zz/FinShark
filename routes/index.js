@@ -13,6 +13,8 @@ var PDFtoText = require('../Utilities/Watson/PDFtoText')
 var extractor = require('../Utilities/ExtractDataFromText.js')
 var axios = require('axios');
 
+var soundPath;
+var translatedText;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -54,11 +56,7 @@ router.get('/upload', function (req, res, next) {
 
 });
 
-router.get('/form', function (req, res) {
-  res.render('form')
-});
-
-router.get('/graph/', function (req, res, next) {
+router.get('/graph', function (req, res, next) {
   var score = req.query.score
   var numData = req.query.amount
   res.render('graph', {
@@ -87,6 +85,30 @@ router.get('/tospeech', function (req, res, next) {
     res.sendFile(response)
   })
 })
+
+router.get('/form', function (req, res) {
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  soundPath = req.query.sound;
+  translatedText = req.query.translatedText;
+  res.render('form', {
+    loan: loan,
+    interest: interest
+  })
+});
+
+router.post('/form', function (req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
+  res.render('form')
+});
+
+
 
 
 router.post('/form', function (req, res) {
@@ -152,6 +174,9 @@ router.get('/doc', function (req, res, next) {
     message: null,
   }
 
+  console.log(translatedText);
+  console.log(soundPath);
+
   let parseScore = parseInt(data.score)
 
   if (parseScore >= 0 && parseScore < 4) {
@@ -206,18 +231,13 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
       languageTranslator(text, 'en', language, (translatedText) => {
         TexttoSpeech(translatedText, language, (soundPath) => {
           extractor(text, ["loan", "rate"], (response) => {
-            res.json({ loan: response.loanAmount, interest: response.interestRate, translatedText: translatedText, soundPath: soundPath })
+            var responseObj = { loan: response.loanAmount, interest: response.interestRate, translatedText: translatedText, soundPath: soundPath }
+            console.log(responseObj)
+            res.json(responseObj)
           });
         })
-
-
-
-      });
-    })
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-
-    // Use the mv() method to place the file somewhere on your server
-
+      })
+    });
   }
 })
 
