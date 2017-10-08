@@ -42,6 +42,10 @@ router.get('/upload', function(req, res, next) {
   
 });
 
+router.get('/form', function(req, res) {
+  res.render('form')
+});
+
 router.get('/doc', function(req, res, next) {
 
   const str1 = "Lorem ipsum dolor sit amet consectetur adipiscing, elit iaculis quisque ligula dapibus taciti, luctus aliquet maecenas nibh sociis. Iaculis sagittis commodo feugiat porttitor magna praesent eros, ullamcorper ac aenean aptent eget viverra convallis"
