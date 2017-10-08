@@ -13,8 +13,13 @@ var PDFtoText = require('../Utilities/Watson/PDFtoText')
 var extractor = require('../Utilities/ExtractDataFromText.js')
 var axios = require('axios');
 
+var getMortgageRate = require('../Utilities/USBankAPI.js').getMortgageRate;
+var getFraudData = require('../Utilities/FraudDataExtraction.js')
+
+
 var soundPath;
 var translatedText;
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -105,6 +110,13 @@ router.post('/form', function (req, res) {
   var propertyValue = req.body.propertyValue;
   var propertyType = req.body.propertyType;
   var months = req.body.months;
+
+  var location = req.body.city;
+  var givenRate = req.body.interest;
+  console.log("location?")
+  var LTV = (loan/propertyValue) * 100;
+  var DTI = (loan/months) / (income /12) * 100
+
   res.render('form')
 });
 
@@ -121,6 +133,7 @@ router.post('/form', function (req, res) {
 
   var LTV = (loan / propertyValue) * 100;
   var DTI = (loan / months) / (income / 12) * 100
+
   var sendData = {
     "creditScore": parseInt(creditScore),
     "firstTimeHomeBuyer": false,
@@ -144,7 +157,7 @@ router.post('/form', function (req, res) {
     url: process.env.FLASK_URL,
     method: "post",
     data: {
-      "creditScore": creditScore,
+      "creditScore": parseInt(creditScore),
       "firstTimeHomeBuyer": false,
       "occupancyStatus": "O",
       "sellerName": "Other sellers",
@@ -159,8 +172,34 @@ router.post('/form', function (req, res) {
       "CLTV": LTV.toString(),
       "loanTerm": months.toString(),
       "DTI": DTI.toString(),
-      "numberBorrowers": 1
+      "numBorrowers": 1
     }
+
+  }).then( (resp) => {
+    var newScore = resp.data.values[0][0]
+    getMortgageRate(360, 'VA', (bankVal) => {
+      console.log(bankVal, newScore);
+      var calculatedScore = (parseFloat(newScore) + parseFloat(bankVal))/2;
+
+      console.log("New Score", calculatedScore);
+      getFraudData(function(dataObj){
+        var locationScore = ((99-dataObj[location])/99) * 4;
+        console.log("location", locationScore);
+        var difference = givenRate - calculatedScore;
+        console.log("difference", difference);
+        var finalScore = locationScore >= 3 ? 3 + locationScore : (2*difference) + locationScore;
+        console.log("finalSCore", finalScore);
+        const data = {
+          score: finalScore
+        }
+        res.render('doc', {data: data});
+      })
+    })
+
+  })
+  .catch((err) => console.log(err))
+  })
+
   }).then((resp) => console.log(resp.data))
     .catch((err) => console.log(err))
 })
