@@ -1,38 +1,4 @@
-<style>
-.form-container {
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-direction: column;
-  height: 100vh;
-}
-.form-form {
-  border: 1px solid red;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-direction: column;
-  height: 100%;
-  /* padding: 1em; */
-}
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.row-submit {
-  align-self: flex-end;
-}
-.row-submit button {
-  margin-right: 4em;
-}
-
-</style>
-
 <script src="https://use.fontawesome.com/4a0bea6b2c.js"></script>
-
 
 <div class='form-container'>
   <h1>Just One More Step</h1>
@@ -40,54 +6,64 @@
 
     <div class='row'>
 
-      <div class="input-group col-xs-2">
+      <div class="input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon1"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
         <input type="number" class="form-control" placeholder="Credit Score" aria-describedby="basic-addon1">
       </div>
 
-      <div class="input-group col-xs-3">
+      <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class="fa fa-money" aria-hidden="true"></i></span>
         <input type="number" class="form-control" placeholder='Income'>
       </div>
 
     </div>
-    
+
     <div class='row'>
 
-      <div class="input-group col-xs-3">
+      <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class='glyphicon glyphicon-home'></i></span>
         <input type="number" class="form-control" placeholder='Property Value'>
       </div>
 
-      <div class='property-type-container col-xs-2'>
+      <div class='property-type-container col-xs-4'>
         <select class='form-control' name='property-type'>
           <option>Property Type</option>
-          <option>Home</option>
-          <option>Apartment</option>
+          <option value='CO'>Condo</option>
+          <option value='LH'>Leasehold</option>
+          <option value='PU'>Planned Unit Development</option>
+          <option value='MH'>Manufactured Home</option>
+          <option value='SF'>Single Family Home</option>
+          <option value='CP'>Cooperative Share</option>
+          <option value='  '>Unknown</option>
         </select>
       </div>
 
     </div>
 
     <div class='row'>
-      
-      <div class="input-group col-xs-2">
+
+      <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></span>
-        <input type="number" class="form-control" placeholder='Loan Value'>
+        <input type="number" class="form-control" placeholder='Loan Value' value={{loan}}>
       </div>
 
-      <div class='col-xs-3 month-container'>
 
-        <div class="input-group">
-          <input type="number" class="form-control" placeholder='MM/YYYY'>
+      <div class="month-container input-group col-xs-4">
+        <div class="input-group col-xs-4">
+          <input type="number" class="form-control" placeholder='# of Months'>
         </div>
 
-        <div class="input-group">
-          <input type="number" class="form-control" placeholder='MM/YYYY'>
+
+        <div class="input-group col-xs-5">
+          <input type="number" class="form-control" placeholder='Interest %' value={{interest}}>
         </div>
 
       </div>
+    </div>
 
+    <div class='row'>
+      <div class='query-city'>
+      </div>
     </div>
 
     <div class='row-submit'>

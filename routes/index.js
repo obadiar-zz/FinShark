@@ -8,7 +8,14 @@ var fileUpload = require('express-fileupload');
 var multer = require('multer');
 var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
+<<<<<<< HEAD
 var TexttoSpeech = require('../Utilities/Watson/TextToSpeech')
+=======
+var PDFtoText = require('../Utilities/Watson/PDFtoText')
+var extractor = require('../Utilities/ExtractDataFromText.js')
+var axios = require('axios');
+
+>>>>>>> master
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -50,14 +57,8 @@ router.get('/upload', function (req, res, next) {
 
 });
 
-const exampleData = [
-  { msgType: 'Good News', msg: 'str1', color: 'lightgreen' },
-  { msgType: 'Bad News', msg: 'str2', color: 'red' },
-  { msgType: 'Next Steps', msg: 'str3', color: '' }
-]
-
-router.get('/doc', function (req, res, next) {
-  res.render('doc', { data: exampleData });
+router.get('/form', function (req, res) {
+  res.render('form')
 });
 
 router.get('/graph/', function (req, res, next) {
@@ -92,57 +93,101 @@ router.get('/tospeech', function (req, res, next) {
 
 router.get('/form', function (req, res) {
   res.render('form')
-});
 
-router.get('/doc', function (req, res, next) {
+  router.get('/doc', function (req, res, next) {
 
-  const str1 = "Lorem ipsum dolor sit amet consectetur adipiscing, elit iaculis quisque ligula dapibus taciti, luctus aliquet maecenas nibh sociis. Iaculis sagittis commodo feugiat porttitor magna praesent eros, ullamcorper ac aenean aptent eget viverra convallis"
-  const str2 = "Massa tellus bibendum vulputate eros quam aliquet fermentum dapibus leo auctor"
-  const str3 = "Fames etiam primis curabitur tempor convallis habitasse litora enim, lacus tincidunt ante"
-  const exampleData = [
-    { msgType: 'Good News', msg: str1, color: 'lightgreen' },
-    { msgType: 'Bad News', msg: str2, color: 'red' },
-    { msgType: 'Next Steps', msg: str3, color: '' }
-  ]
+    const data = {
+      score: 1,
+      color: 'black',
+      graph: null,
+      message: null,
+    }
 
-  res.render('doc', { data: exampleData });
+    let parseScore = parseInt(data.score)
 
-});
+    if (parseScore >= 0 && parseScore < 4) {
+      data.color = 'green'
+      data.message = 'Your doc analysis results raised few warnings. Cheers!'
+    }
+    else if (parseScore > 4 && parseScore < 7) {
+      data.color = 'amber'
+      data.message = 'Your doc analysis results raised some warnings. Consider talking to an insurance professional about your loan.'
+    }
+    else if (parseScore > 7 && parseScore <= 10) {
+      data.color = 'red'
+      data.message = 'Your doc analysis results raised significant warnings. Recommended next steps are to call our trusted partners A.A.R.P. (1-866-654-5572) and U.S. Bank (1-800-720-2265).'
+    }
+    else {
+      console.log('error in GET /doc. score is not between 0 and 10')
+      data.message = 'Error retrieving your results. Please let us know if this error occurred.'
+    }
+
+    res.render('doc', { data: data });
+  })
+
+  router.get('/form', function (req, res) {
+    console.log(req.query)
+    var loan = req.query.loan;
+    var interest = req.query.interestRate;
+    res.render('form', {
+      loan: loan,
+      interest: interest
+    })
+  });
+
+  router.post('/form', function (req, res) {
+    var loan = req.body.loan;
+    var creditScore = req.body.creditScore;
+    var income = req.body.income;
+    var propertyValue = req.body.propertyValue;
+    var propertyType = req.body.propertyType;
+    var months = req.body.months;
+    res.render('form')
+  });
 
 
-router.post('/upload', upload.single('file'), function (req, res, next) {
-  var buffer = req.file["buffer"];
-  ImagetoText(buffer, (text) => res.send(text))
-  // if (!req.file)
-  //   return res.status(400).send('No files were uploaded.');
-  //   else{
-  //
-  //
-  //   }
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
-  // Use the mv() method to place the file somewhere on your server
+  router.post('/upload', upload.single('file'), function (req, res, next) {
+    if (req.file.originalname.indexOf('pdf') === -1) {
+      res.sendStatus(400);
+    } else {
+      PDFtoText(req.file.originalname, (text) => {
+        extractor(text, ["loan", "rate"], (text) => {
 
-})
-
-function objTranslator(text, lang, res, resType, view) {
-  async.forEachOf(text, (val, key, cb) => {
-    try {
-      languageTranslator(val, 'en', lang, (translation) => {
-        console.log('\nval', val, '\nkey', key, '\ntranslation', translation)
-        text[key] = translation;
-        cb();
+          res.json({ loan: text.loanAmount, interest: text.interestRate })
+        });
       });
     }
-    catch (e) {
-      return cb(e);
-    }
-  }, (err) => {
-    if (err) console.log(err);
-    if (resType === 'json') res.json({ "text": text });
-    console.log('translated', text)
-    if (resType === 'render') res.render(view, { "text": text });
-  })
-}
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
-module.exports = router;
+    // Use the mv() method to place the file somewhere on your server
+
+  })
+
+
+  // parameters for objTranslator()
+  // text: an object of strings being passed to hbs view
+  // res: res.send/render/json function
+  // resType: 'json' or 'render' or 'send'
+  // view: name of hbs view
+  function objTranslator(text, lang, res, resType, view) {
+    async.forEachOf(text, (val, key, cb) => {
+      try {
+        languageTranslator(val, 'en', lang, (translation) => {
+          console.log('\nval', val, '\nkey', key, '\ntranslation', translation)
+          text[key] = translation;
+          cb();
+        });
+      }
+      catch (e) {
+        return cb(e);
+      }
+    }, (err) => {
+      if (err) console.log(err);
+      if (resType === 'json') res.json({ "text": text });
+      console.log('translated', text)
+      if (resType === 'render') res.render(view, { "text": text });
+    })
+  }
+
+  module.exports = router;
