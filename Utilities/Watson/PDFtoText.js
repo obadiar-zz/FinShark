@@ -1,5 +1,6 @@
 var DocumentConversionV1 = require('watson-developer-cloud/document-conversion/v1');
 var fs = require('fs');
+var path = require('path')
 
 var document_conversion = new DocumentConversionV1({
     username: process.env.PDF2TEXTUSER,
@@ -14,7 +15,7 @@ This function takes two parameters:
 */
 
 function PDFtoText(fileName, callback) {
-    var inputFolder = __dirname + '/resources/';
+    var inputFolder = path.join(__dirname, '..', 'resources/')
     var outputFolder = __dirname + '/converted/';
     var inputPath = inputFolder + fileName;
     var outputPath = outputFolder + fileName.substring(0, fileName.indexOf('.')) + '.txt';

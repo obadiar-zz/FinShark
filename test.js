@@ -4,11 +4,10 @@ var languageTranslator = require('./Utilities/Watson/Translation')
 var TexttoSpeech = require('./Utilities/Watson/TextToSpeech')
 var ImagetoText = require('./Utilities/OCR/tesseractOCR')
 var extractor = require('./Utilities/ExtractDataFromText.js')
+var getMortgages = require('./Utilities/USBankAPI')
 
-const fileName = 'loan2.pdf'
+const fileName = 'loan3.pdf'
 
-ImagetoText('sample1.png', (text) => {
-    extractor(text, ['loan', 'rate'], (response) => {
-        console.log(response)
-    })
+getMortgages('360', 'VA', (response) => {
+    console.log(response)
 })
