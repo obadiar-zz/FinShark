@@ -103,6 +103,10 @@ router.get('/form', function (req, res) {
   })
 });
 
+
+
+
+
 router.post('/form', function (req, res) {
   var loan = req.body.loan;
   var creditScore = req.body.creditScore;
@@ -110,27 +114,8 @@ router.post('/form', function (req, res) {
   var propertyValue = req.body.propertyValue;
   var propertyType = req.body.propertyType;
   var months = req.body.months;
-
   var location = req.body.city;
   var givenRate = req.body.interest;
-  console.log("location?")
-  var LTV = (loan/propertyValue) * 100;
-  var DTI = (loan/months) / (income /12) * 100
-
-  res.render('form')
-});
-
-
-
-
-router.post('/form', function (req, res) {
-  var loan = req.body.loan;
-  var creditScore = req.body.creditScore;
-  var income = req.body.income;
-  var propertyValue = req.body.propertyValue;
-  var propertyType = req.body.propertyType;
-  var months = req.body.months;
-
   var LTV = (loan / propertyValue) * 100;
   var DTI = (loan / months) / (income / 12) * 100
 
@@ -190,7 +175,7 @@ router.post('/form', function (req, res) {
         var finalScore = locationScore >= 3 ? 3 + locationScore : (2*difference) + locationScore;
         console.log("finalSCore", finalScore);
         const data = {
-          score: finalScore
+          score: finalScore.toFixed(2)
         }
         res.render('doc', {data: data});
       })
@@ -198,10 +183,6 @@ router.post('/form', function (req, res) {
 
   })
   .catch((err) => console.log(err))
-  })
-
-  }).then((resp) => console.log(resp.data))
-    .catch((err) => console.log(err))
 })
 
 router.get('/doc', function (req, res, next) {
