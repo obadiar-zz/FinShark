@@ -187,3 +187,41 @@ body {
 .results-container button {
   align-self: flex-end;
 }
+
+/* FORM *//* FORM *//* FORM *//* FORM *//* FORM *//* FORM *//* FORM */
+
+.form-container {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 100vh;
+}
+.form-form {
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 100%;
+  /* padding: 1em; */
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.row-submit {
+  align-self: flex-end;
+}
+.row-submit button {
+  margin-right: 4em;
+}
+
+.month-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
