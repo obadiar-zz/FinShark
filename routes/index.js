@@ -53,14 +53,8 @@ router.get('/upload', function (req, res, next) {
 
 });
 
-const exampleData = [
-  { msgType: 'Good News', msg: 'str1', color: 'lightgreen' },
-  { msgType: 'Bad News', msg: 'str2', color: 'red' },
-  { msgType: 'Next Steps', msg: 'str3', color: '' }
-]
-
-router.get('/doc', function (req, res, next) {
-  res.render('doc', { data: exampleData });
+router.get('/form', function(req, res) {
+  res.render('form')
 });
 
 router.get('/graph/', function (req, res, next) {
@@ -76,6 +70,36 @@ router.get('/graphdata', function (req, res, next) {
   res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
 })
 
+router.get('/doc', function(req, res, next) {
+
+  const data = {
+    score: 1,
+    color: 'black',
+    graph: null,
+    message: null,
+  }
+
+  let parseScore = parseInt(data.score)
+
+  if (parseScore >= 0 && parseScore < 4) {
+    data.color = 'green'
+    data.message = 'Your doc analysis results raised few warnings. Cheers!'
+  }
+  else if (parseScore > 4 && parseScore < 7) {
+    data.color = 'amber'
+    data.message = 'Your doc analysis results raised some warnings. Consider talking to an insurance professional about your loan.'
+  }
+  else if (parseScore > 7 && parseScore <= 10) {
+    data.color = 'red'
+    data.message = 'Your doc analysis results raised significant warnings. Recommended next steps are to call our trusted partners A.A.R.P. (1-866-654-5572) and U.S. Bank (1-800-720-2265).'
+  }
+  else {
+    console.log('error in GET /doc. score is not between 0 and 10')
+    data.message = 'Error retrieving your results. Please let us know if this error occurred.'
+  }
+  
+  res.render('doc', {data: data});
+  
 router.get('/form', function(req, res) {
   console.log(req.query)
   var loan = req.query.loan;
@@ -96,20 +120,7 @@ router.post('/form', function(req, res) {
   res.render('form')
 });
 
-router.get('/doc', function (req, res, next) {
 
-  const str1 = "Lorem ipsum dolor sit amet consectetur adipiscing, elit iaculis quisque ligula dapibus taciti, luctus aliquet maecenas nibh sociis. Iaculis sagittis commodo feugiat porttitor magna praesent eros, ullamcorper ac aenean aptent eget viverra convallis"
-  const str2 = "Massa tellus bibendum vulputate eros quam aliquet fermentum dapibus leo auctor"
-  const str3 = "Fames etiam primis curabitur tempor convallis habitasse litora enim, lacus tincidunt ante"
-  const exampleData = [
-    { msgType: 'Good News', msg: str1, color: 'lightgreen' },
-    { msgType: 'Bad News', msg: str2, color: 'red' },
-    { msgType: 'Next Steps', msg: str3, color: '' }
-  ]
-
-  res.render('doc', { data: exampleData });
-
-});
 
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
@@ -132,6 +143,12 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
 
 })
 
+
+// parameters for objTranslator()
+  // text: an object of strings being passed to hbs view
+  // res: res.send/render/json function
+  // resType: 'json' or 'render' or 'send'
+  // view: name of hbs view
 function objTranslator(text, lang, res, resType, view) {
   async.forEachOf(text, (val, key, cb) => {
     try {

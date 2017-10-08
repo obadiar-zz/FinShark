@@ -7,7 +7,7 @@
       <input type="file" name="file" id="file"/>
     </div>
     <div class='submit-row'>
-      <a><button class="collapse btn btn-default" type="submit">{{text.submit}}</button></a>
+      <a href='/form'><button class="collapse btn btn-default" type="submit">{{text.submit}}</button></a>
     </div>
   </div>
   <div class='third'>
@@ -18,7 +18,6 @@
 <script>
 
 $("#upload-form").submit(function(event){
-  event.preventDefault();
   var file = document.getElementById('file').files[0];
   console.log("file", file)
   var formData = new FormData();
