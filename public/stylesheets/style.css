@@ -199,7 +199,6 @@ body {
   height: 100vh;
 }
 .form-form {
-  border: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -220,8 +219,11 @@ body {
   margin-right: 4em;
 }
 
-.month-container {
-  display: flex;
-  justify-content: space-evenly;
+.property-type-container {
+  padding: 0;
 }
 
+.month-container {
+  display: flex;
+  justify-content: space-between;
+}
