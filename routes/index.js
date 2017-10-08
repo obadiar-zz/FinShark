@@ -55,7 +55,13 @@ router.get('/upload', function (req, res, next) {
 });
 
 router.get('/form', function (req, res) {
-  res.render('form')
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  res.render('form', {
+    loan: loan,
+    interest: interest
+  })
 });
 
 router.get('/graph/', function (req, res, next) {
@@ -88,7 +94,62 @@ router.get('/tospeech', function (req, res, next) {
   })
 })
 
-router.get('/doc', function (req, res, next) {
+
+router.post('/form', function (req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
+
+  var LTV = (loan / propertyValue) * 100;
+  var DTI = (loan / months) / (income / 12) * 100
+  var sendData = {
+    "creditScore": parseInt(creditScore),
+    "firstTimeHomeBuyer": false,
+    "occupancyStatus": "O",
+    "sellerName": "Other sellers",
+    "servicerName": "Other servicers",
+    "channel": "R",
+    "PPM": "N",
+    "loanPurpose": "P",
+    "numUnits": 1,
+    "propertyType": propertyType,
+    "unpaidAmount": loan.toString(),
+    "LTV": LTV.toString(),
+    "CLTV": LTV.toString(),
+    "loanTerm": months.toString(),
+    "DTI": DTI.toString(),
+    "numberBorrowers": 1
+  }
+
+  console.log(sendData);
+
+
+  axios({
+    url: process.env.FLASK_URL,
+    method: "post",
+    data: {
+      "creditScore": creditScore,
+      "firstTimeHomeBuyer": false,
+      "occupancyStatus": "O",
+      "sellerName": "Other sellers",
+      "servicerName": "Other servicers",
+      "channel": "R",
+      "PPM": "N",
+      "loanPurpose": "P",
+      "numUnits": 1,
+      "propertyType": propertyType,
+      "unpaidAmount": loan.toString(),
+      "LTV": LTV.toString(),
+      "CLTV": LTV.toString(),
+      "loanTerm": months.toString(),
+      "DTI": DTI.toString(),
+      "numberBorrowers": 1
+    }
+  }).then((resp) => console.log(resp.data))
+    .catch((err) => console.log(err))
 
   const data = {
     score: 1,
@@ -118,16 +179,6 @@ router.get('/doc', function (req, res, next) {
 
   res.render('doc', { data: data });
 })
-
-router.get('/form', function (req, res) {
-  console.log(req.query)
-  var loan = req.query.loan;
-  var interest = req.query.interestRate;
-  res.render('form', {
-    loan: loan,
-    interest: interest
-  })
-});
 
 router.post('/form', function (req, res) {
   var loan = req.body.loan;
