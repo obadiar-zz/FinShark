@@ -29,7 +29,7 @@ var textToSpeech = (text, language, callback) => {
   var writeStream = fs.createWriteStream(filePath);
   text_to_speech.synthesize(params).pipe(writeStream);
   writeStream.on('close', () => {
-    console.log('Text is now in voice format.')
+    console.log('Text is now in voice format:', filePath)
     callback(filePath);
   });
 }
