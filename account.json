@@ -1,0 +1,117 @@
+{
+    "Status": {
+        "StatusCode": "",
+        "Severity": "",
+        "StatusDescription": ""
+    },
+    "AccessibleAccountDetailList": [
+        {
+            "_id": "59d95d26721ae2944407e23f",
+            "OperatingCompanyIdentifier": "642",
+            "ProductCode": "BCD",
+            "PrimaryIdentifier": "00000004718240078092035",
+            "LegalParticipantIdentifier": "000996202016520455",
+            "BasicAccountDetail": {
+                "Balances": {
+                    "AccessibleBalanceAmount": "0.0",
+                    "InvestmentBalanceAmount": "0.0",
+                    "CreditAvailableBalanceAmount": "0.0",
+                    "PayoffBalanceAmount": "0.0",
+                    "AvailableBalanceAmount": "20000.0",
+                    "CurrentBalanceAmount": "0.0"
+                },
+                "Codes": {
+                    "StatusDescription": "OPEN",
+                    "AccountStatusCode": "99",
+                    "SubProductCode": "BC",
+                    "RelationshipCode": "INO",
+                    "CategoryDescription": "CR CARD",
+                    "CategoryCode": "CCRD"
+                },
+                "RedactedAccountNumber": "*******471824******2035",
+                "BranchIdentifier": "907"
+            }
+        },
+        {
+            "_id": "59d95d29721ae2944407e243",
+            "OperatingCompanyIdentifier": "52",
+            "ProductCode": "CCD",
+            "PrimaryIdentifier": "00000004037670261568926",
+            "LegalParticipantIdentifier": "000996202016520455",
+            "BasicAccountDetail": {
+                "Balances": {
+                    "AccessibleBalanceAmount": "0.0",
+                    "InvestmentBalanceAmount": "0.0",
+                    "CreditAvailableBalanceAmount": "0.0",
+                    "PayoffBalanceAmount": "5091.79",
+                    "AvailableBalanceAmount": "0.0",
+                    "CurrentBalanceAmount": "5091.79"
+                },
+                "Codes": {
+                    "StatusDescription": "OPEN",
+                    "AccountStatusCode": "99",
+                    "SubProductCode": "D7",
+                    "RelationshipCode": "IND",
+                    "CategoryDescription": "CR CARD",
+                    "CategoryCode": "CCRD"
+                },
+                "RedactedAccountNumber": "*******403767******8926",
+                "BranchIdentifier": "907"
+            }
+        },
+        {
+            "_id": "59d95d29721ae2944407e244",
+            "OperatingCompanyIdentifier": "874",
+            "ProductCode": "DDA",
+            "PrimaryIdentifier": "00000000000153150900063",
+            "LegalParticipantIdentifier": "000996202016520455",
+            "BasicAccountDetail": {
+                "Balances": {
+                    "AccessibleBalanceAmount": "33361.27",
+                    "InvestmentBalanceAmount": "0.0",
+                    "CreditAvailableBalanceAmount": "0.0",
+                    "PayoffBalanceAmount": "0.0",
+                    "AvailableBalanceAmount": "28361.27",
+                    "CurrentBalanceAmount": "28361.27"
+                },
+                "Codes": {
+                    "StatusDescription": "OPEN",
+                    "AccountStatusCode": "99",
+                    "SubProductCode": "91",
+                    "RelationshipCode": "IND",
+                    "CategoryDescription": "CHECKING",
+                    "CategoryCode": "CHCK"
+                },
+                "RedactedAccountNumber": "*******000015******0063",
+                "BranchIdentifier": "907"
+            }
+        },
+        {
+            "_id": "59d95d2f721ae2944407e24e",
+            "OperatingCompanyIdentifier": "874",
+            "ProductCode": "DDA",
+            "PrimaryIdentifier": "00000000000153152739220",
+            "LegalParticipantIdentifier": "000996202016520455",
+            "BasicAccountDetail": {
+                "Balances": {
+                    "AccessibleBalanceAmount": "63806.51",
+                    "InvestmentBalanceAmount": "0.0",
+                    "CreditAvailableBalanceAmount": "0.0",
+                    "PayoffBalanceAmount": "0.0",
+                    "AvailableBalanceAmount": "63806.51",
+                    "CurrentBalanceAmount": "63806.51"
+                },
+                "Codes": {
+                    "StatusDescription": "OPEN",
+                    "AccountStatusCode": "99",
+                    "SubProductCode": "GS",
+                    "RelationshipCode": "IND",
+                    "CategoryDescription": "CHECKING",
+                    "CategoryCode": "CHCK"
+                },
+                "RedactedAccountNumber": "*******000015******9220",
+                "BranchIdentifier": "3903"
+            }
+        }
+    ]
+}
