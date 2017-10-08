@@ -9,15 +9,15 @@ var getFraudData = require('./Utilities/FraudDataExtraction.js')
 
 const fileName = 'loan4.pdf'
 
-// PDFtoText(fileName, (response) => {
-//     // console.log(response)
-//     extractor(response, ['loan', 'rate'], (response) => {
-//         console.log(response)
-//     })
-// })
-
-ImagetoText('sample2.png', (response) => {
+PDFtoText(fileName, (response) => {
+    // console.log(response)
     extractor(response, ['loan', 'rate'], (response) => {
         console.log(response)
     })
 })
+
+// ImagetoText('sample2.png', (response) => {
+//     extractor(response, ['loan', 'rate'], (response) => {
+//         console.log(response)
+//     })
+// })
