@@ -10,6 +10,8 @@ Only input is an image as specified below.
 */
 
 ImagetoText = (img, keywords, dataAnalysis, callback) => {
+  var keywords = keywords || ['loan', 'rate'];
+  var dataAnalysis = dataAnalysis || console.log;
   Tesseract.recognize(img, { lang: "eng" })
     .catch(err => console.error(err))
     .then(result => {
