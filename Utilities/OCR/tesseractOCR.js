@@ -14,6 +14,7 @@ ImagetoText = (img, callback) => {
   Tesseract.recognize(img, { lang: "eng" })
     .catch(err => console.error(err))
     .then(result => {
+      console.log(text);
       var text = result.text;
       callback(text);
     });

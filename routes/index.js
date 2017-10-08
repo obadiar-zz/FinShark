@@ -8,6 +8,10 @@ var fileUpload = require('express-fileupload');
 var multer = require('multer');
 var upload = multer();
 var ImagetoText = require('../Utilities/OCR/tesseractOCR')
+var PDFtoText = require('../Utilities/Watson/PDFtoText')
+var extractor = require('../Utilities/ExtractDataFromText.js')
+var axios = require('axios');
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -72,7 +76,23 @@ router.get('/graphdata', function (req, res, next) {
   res.sendFile(path.join(__dirname, '..', 'Utilities/resources/data.json'))
 })
 
-router.get('/form', function (req, res) {
+router.get('/form', function(req, res) {
+  console.log(req.query)
+  var loan = req.query.loan;
+  var interest = req.query.interestRate;
+  res.render('form', {
+    loan: loan,
+    interest: interest
+  })
+});
+
+router.post('/form', function(req, res) {
+  var loan = req.body.loan;
+  var creditScore = req.body.creditScore;
+  var income = req.body.income;
+  var propertyValue = req.body.propertyValue;
+  var propertyType = req.body.propertyType;
+  var months = req.body.months;
   res.render('form')
 });
 
@@ -93,14 +113,19 @@ router.get('/doc', function (req, res, next) {
 
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
-  var buffer = req.file["buffer"];
-  ImagetoText(buffer, (text) => res.send(text))
-  // if (!req.file)
-  //   return res.status(400).send('No files were uploaded.');
-  //   else{
-  //
-  //
-  //   }
+  if(req.file.originalname.indexOf('pdf') === -1){
+    res.sendStatus(400);
+  }else{
+      PDFtoText(req.file.originalname, (text) => {
+        extractor(text, ["loan", "rate"], (text) =>{
+
+          res.json({loan: text.loanAmount, interest: text.interestRate})
+        });
+      });
+  }
+
+
+
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
   // Use the mv() method to place the file somewhere on your server
