@@ -11,7 +11,6 @@ Only input is an image as specified below.
 */
 
 ImagetoText = (img, callback) => {
-  var img = path.join(__dirname, '..', 'resources', img);
   Tesseract.recognize(img, { lang: "eng" })
     .catch(err => console.error(err))
     .then(result => {
