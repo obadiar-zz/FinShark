@@ -2,12 +2,12 @@
   <h1>{{text.h1}}</h1>
   <div class="padding-container col-xs-9">
 
-    <div class="input-container">
+    <div class="upload-animation input-container">
+      <label for="file">{{text.label}}</label>
       <input type="file" name="file" id="file"/>
     </div>
     <div class='submit-row'>
-      <label for="file">{{text.label}}</label>
-      <a><button class="btn btn-default" type="submit">{{text.submit}}</button></a>
+      <a><button class="collapse btn btn-default" type="submit">{{text.submit}}</button></a>
     </div>
   </div>
   <div class='third'>
@@ -16,6 +16,7 @@
 </form>
 
 <script>
+
 $("#upload-form").submit(function(event){
   event.preventDefault();
   var file = document.getElementById('file').files[0];
@@ -37,16 +38,15 @@ $("#upload-form").submit(function(event){
   })
 })
 
-
-  var lang = (this.location.href.split('lang='))[1] || 'en'
-  if (lang !== 'en') {
-    $('.third a').attr('href', `/?lang=${lang}`);
-  }
-    
-  $('.input-container input').change(function() {
-    $('.submit-row button').addClass('submit-animation')
-    $('.submit-row button').slideDown(1000);
-    $('.input-container').removeClass('upload-animation')
-  });
+var lang = (this.location.href.split('lang='))[1] || 'en'
+if (lang !== 'en') {
+  $('.third a').attr('href', `/?lang=${lang}`);
+}
+  
+$('.input-container input').change(function() {
+  $('.submit-row button').addClass('submit-animation')
+  $('.submit-row button').slideDown(1000);
+  $('.input-container').removeClass('upload-animation')
+});
 
 </script>
