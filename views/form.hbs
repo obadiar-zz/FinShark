@@ -8,12 +8,12 @@
 
       <div class="input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon1"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
-        <input type="number" class="form-control" placeholder="Credit Score" aria-describedby="basic-addon1">
+        <input type="number" class="form-control" name="creditScore" placeholder="Credit Score" aria-describedby="basic-addon1">
       </div>
 
       <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class="fa fa-money" aria-hidden="true"></i></span>
-        <input type="number" class="form-control" placeholder='Income'>
+        <input type="number" name="income" class="form-control" placeholder='Income'>
       </div>
 
     </div>
@@ -22,11 +22,11 @@
 
       <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class='glyphicon glyphicon-home'></i></span>
-        <input type="number" class="form-control" placeholder='Property Value'>
+        <input type="number" name="propertyValue" class="form-control" placeholder='Property Value'>
       </div>
 
       <div class='property-type-container col-xs-4'>
-        <select class='form-control' name='property-type'>
+        <select class='form-control' name='propertyType'>
           <option>Property Type</option>
           <option value='CO'>Condo</option>
           <option value='LH'>Leasehold</option>
@@ -44,18 +44,18 @@
 
       <div class="input-group col-xs-4">
         <span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></span>
-        <input type="number" class="form-control" placeholder='Loan Value' value={{loan}}>
+        <input type="number" class="form-control" name="loan" placeholder='Loan Value' value={{loan}}>
       </div>
 
 
       <div class="month-container input-group col-xs-4">
         <div class="input-group col-xs-4">
-          <input type="number" class="form-control" placeholder='# of Months'>
+          <input type="number" class="form-control" name="months" placeholder='# of Months'>
         </div>
 
 
         <div class="input-group col-xs-5">
-          <input type="number" class="form-control" placeholder='Interest %' value={{interest}}>
+          <input type="number" class="form-control" placeholder='Interest %' name="interest" value={{interest}}>
         </div>
 
       </div>
@@ -63,6 +63,7 @@
 
     <div class='row'>
       <div class='query-city'>
+        <input type="text" class="form-control" placeholder="City" name="city"/>
       </div>
     </div>
 
