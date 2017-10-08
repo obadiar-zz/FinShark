@@ -195,7 +195,7 @@ body {
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  border: 2px solid black;
+
 }
 
 .results-container {
@@ -203,7 +203,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid black;
   padding: 0;
 }
 
